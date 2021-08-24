@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.AccountsController">
+   <children>
+       <MenuBar fx:id="myMenuBar" layoutY="7.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="900.0" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <menus>
+               <Menu text="Menus">
+                   <items>
+                       <MenuItem mnemonicParsing="false" onAction="#navigateToAccounts" text="Accounts" />
+                       <MenuItem mnemonicParsing="false" onAction="#navigateToBills" text="Bills" />
+                       <MenuItem mnemonicParsing="false" onAction="#navigateToMissions" text="Missions" />
+                   </items></Menu>
+               <Menu text="Settings">
+                   <items>
+                       <MenuItem mnemonicParsing="false" text="About" />
+                   </items>
+               </Menu>
+           </menus>
+           <cursor>
+               <Cursor fx:constant="HAND" />
+           </cursor>
+       </MenuBar>
+       <Button fx:id="deleteAccount" layoutX="152.0" layoutY="560.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="-" />
+    <Button fx:id="createAccount" layoutX="116.0" layoutY="560.0" mnemonicParsing="false" text="+" />
+      <Separator layoutX="181.0" layoutY="36.0" orientation="VERTICAL" prefHeight="565.0" prefWidth="17.0" />
+      <AnchorPane layoutX="3.0" layoutY="74.0" prefHeight="478.0" prefWidth="181.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="716.0" AnchorPane.topAnchor="74.0">
+         <children>
+            <ListView fx:id="listViewAccounts" maxWidth="181.0" prefHeight="516.0" prefWidth="181.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <TilePane alignment="CENTER" layoutX="3.0" layoutY="38.0" prefHeight="36.0" prefWidth="181.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Accounts" textAlignment="CENTER" wrappingWidth="166.7294921875" />
+         </children>
+      </TilePane>
+      <GridPane fx:id="gridPaneAccount" alignment="CENTER" hgap="10.0" layoutX="194.0" layoutY="42.0" prefHeight="302.0" prefWidth="643.0" vgap="20.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="176.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="0.0" prefWidth="185.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="10.0" prefWidth="184.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="561.0" minWidth="10.0" prefWidth="156.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="ALWAYS" />
+          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Label text="Address" GridPane.columnIndex="2" />
+            <Label text="Contact" GridPane.rowIndex="1" />
+            <Label text="Mail" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Phone" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="CA" GridPane.rowIndex="2" />
+            <TextField fx:id="accountAddress" editable="false" GridPane.columnIndex="3" />
+            <TextField fx:id="accountContact" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="accountEmail" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <TextField fx:id="accountPhone" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="accountCA" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Title" />
+            <TextField fx:id="accountTitleField" GridPane.columnIndex="1" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </GridPane>
+      <FlowPane alignment="CENTER" layoutX="190.0" layoutY="38.0" prefHeight="51.0" prefWidth="706.0">
+         <children>
+            <Text fx:id="accountTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </FlowPane>
+      <Button fx:id="editAccount" layoutX="837.0" layoutY="55.0" mnemonicParsing="false" text="Edit" />
+      <GridPane layoutX="198.0" layoutY="312.0" prefHeight="238.0" prefWidth="643.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="20.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="billsLabel" alignment="TOP_LEFT" contentDisplay="TEXT_ONLY" nodeOrientation="LEFT_TO_RIGHT" prefHeight="177.0" prefWidth="27.0" text="Bills" />
+            <ListView fx:id="listViewBills" cacheShape="false" prefHeight="232.0" prefWidth="397.0" GridPane.columnIndex="1" />
+         </children>
+      </GridPane>
+      <Button fx:id="accountSave" layoutX="472.0" layoutY="560.0" mnemonicParsing="false" text="Save" visible="false" />
+      <Button fx:id="accountCancel" layoutX="554.0" layoutY="560.0" mnemonicParsing="false" text="Cancel" visible="false" />
+   </children>
+</AnchorPane>
