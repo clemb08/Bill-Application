@@ -1,2 +1,2 @@
-ID,Number,Type,AccountId,BillId,Price,Date,Billed
-91bd7f0a-6272-43b4-9b89-7d1bfe14bd95,Mission-0002,Formation,80eb88b1-51da-4d52-afd1-55dfbdbdeaf6,26c2cd7e-778b-46c6-9076-0687344ad549,35.0,2021-08-15,true
+ID,Number,Type,Description,Quantity,AccountId,BillId,Price,Date,Billed
+91bd7f0a-6272-43b4-9b89-7d1bfe14bd95,Mission-0002,Formation,"Test Description",1,80eb88b1-51da-4d52-afd1-55dfbdbdeaf6,26c2cd7e-778b-46c6-9076-0687344ad549,35.0,2021-08-15,true

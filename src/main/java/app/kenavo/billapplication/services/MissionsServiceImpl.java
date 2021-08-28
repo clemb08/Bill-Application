@@ -27,6 +27,8 @@ public class MissionsServiceImpl implements MissionService {
         mission.setNumber(record.get("Number"));
         mission.setAccountId(record.get("AccountId"));
         mission.setType(record.get("Type"));
+        mission.setDescription(record.get("Description"));
+        mission.setQuantity(Integer.parseInt(record.get("Quantity")));
         mission.setBillId(record.get("BillId"));
         mission.setPrice(Float.parseFloat(record.get("Price")));
         mission.setDate(record.get("Date"));
@@ -37,7 +39,7 @@ public class MissionsServiceImpl implements MissionService {
 
     public void writeMission(CSVPrinter csvPrinter, Mission mission) throws IOException {
         System.out.println("BILL ID " + mission.getBillId());
-        csvPrinter.printRecord(mission.getId(), mission.getNumber(), mission.getType(), mission.getAccountId(), mission.getBillId(), mission.getPrice(), mission.getDate(), mission.isBilled());
+        csvPrinter.printRecord(mission.getId(), mission.getNumber(), mission.getType(), mission.getDescription(), mission.getQuantity(), mission.getAccountId(), mission.getBillId(), mission.getPrice(), mission.getDate(), mission.isBilled());
     }
 
     @Override
@@ -133,7 +135,7 @@ public class MissionsServiceImpl implements MissionService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(MISSION_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                        .withHeader("ID", "Number", "Type", "AccountId", "BillId", "Price", "Date", "Billed"));) {
+                        .withHeader("ID", "Number", "Type", "Description", "Quantity", "AccountId", "BillId", "Price", "Date", "Billed"));) {
 
             for(Mission missionToSave : missionsToKeep) {
                 writeMission(csvPrinter, missionToSave);
@@ -155,7 +157,7 @@ public class MissionsServiceImpl implements MissionService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(MISSION_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                        .withHeader("ID", "Number", "AccountID", "Type", "Date", "Amount", "Credited"));) {
+                        .withHeader("ID", "Number", "Type", "Description", "Quantity", "AccountId", "BillId", "Price", "Date", "Billed"));) {
 
             for(Mission missionToSave : missionsToKeep) {
                 writeMission(csvPrinter, missionToSave);

@@ -10,6 +10,10 @@ public class Mission {
 
     public String type;
 
+    public String description;
+
+    public int quantity;
+
     public String accountId;
 
     public String billId;
@@ -34,6 +38,22 @@ public class Mission {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getAccountId() {

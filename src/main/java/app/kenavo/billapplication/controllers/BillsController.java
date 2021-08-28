@@ -6,12 +6,12 @@ import app.kenavo.billapplication.model.Mission;
 import app.kenavo.billapplication.services.*;
 import app.kenavo.billapplication.utils.AddColumn;
 import app.kenavo.billapplication.utils.Navigation;
+import app.kenavo.billapplication.utils.PDFCreator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,12 +19,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -61,11 +61,14 @@ public class BillsController implements Initializable {
     @FXML public Button billSave;
     @FXML public Button billCancel;
     @FXML public Button addMission;
+    @FXML public Button generatePDF;
 
     Navigation navigation = new Navigation();
     AccountService accountService = new AccountServiceImpl();
     BillService billService = new BillServiceImpl();
     MissionService missionService = new MissionsServiceImpl();
+
+    PDFCreator pdfCreator = new PDFCreator();
 
     Bill cachedBill = null;
     Bill inProcessBill = null;
@@ -116,6 +119,16 @@ public class BillsController implements Initializable {
             }
         });
 
+        generatePDF.setOnAction(event -> {
+            Bill bill = listViewBills.getSelectionModel().getSelectedItem();
+            List<Mission> missionsToBill = missionService.getAllMissionsByBill(missions, bill.getId());
+            try {
+                pdfCreator.generatePDF(bill, missionsToBill);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+
         listViewBills.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Bill> call(ListView<Bill> param) {
@@ -160,6 +173,7 @@ public class BillsController implements Initializable {
                             tableMissions.setItems(data);
 
                             addMission.setVisible(true);
+                            generatePDF.setVisible(true);
                         } else {
                             resetBillSelected();
                             addMission.setVisible(false);

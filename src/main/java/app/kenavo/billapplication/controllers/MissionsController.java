@@ -35,6 +35,8 @@ public class MissionsController implements Initializable {
     @FXML public TextField missionPrice;
     @FXML public CheckBox missionBilled;
     @FXML public TextField missionDate;
+    @FXML public TextField missionDescription;
+    @FXML public TextField missionQuantity;
 
     @FXML public ChoiceBox<Bill> picklistBills;
     @FXML public ChoiceBox<Account> picklistAccounts;
@@ -266,6 +268,8 @@ public class MissionsController implements Initializable {
         }
 
         missionPrice.setEditable(true);
+        missionDescription.setEditable(true);
+        missionQuantity.setEditable(true);
 
         missionDate.setVisible(false);
         datePicker.setVisible(true);
@@ -286,6 +290,8 @@ public class MissionsController implements Initializable {
         picklistBills.setVisible(false);
         picklistBills.getItems().removeAll(picklistBills.getItems());
         missionPrice.setEditable(false);
+        missionDescription.setEditable(false);
+        missionQuantity.setEditable(false);
         missionDate.setVisible(true);
         datePicker.setVisible(false);
 
