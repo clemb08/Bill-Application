@@ -74,9 +74,15 @@
              <Label text="Price" GridPane.rowIndex="6" />
              <Label text="Date" GridPane.rowIndex="7" />
             <TextField fx:id="missionType" editable="false" GridPane.columnIndex="1" />
-            <TextField fx:id="missionAccount" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="missionAccount" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></TextField>
              <ChoiceBox fx:id="picklistAccounts" prefWidth="150.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="missionBill" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="missionBill" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></TextField>
              <ChoiceBox fx:id="picklistBills" prefWidth="150.0" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
              <CheckBox fx:id="missionBilled" disable="true" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <TextField fx:id="missionPrice" GridPane.columnIndex="1" GridPane.rowIndex="6" />

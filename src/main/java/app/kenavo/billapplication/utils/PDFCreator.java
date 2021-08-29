@@ -35,7 +35,7 @@ public class PDFCreator {
     }
 
     public void generatePDF(Bill bill, List<Mission> missions) throws FileNotFoundException {
-        String dest = "./" + bill.getNumber() +".pdf";
+        String dest = "./" + bill.getNumber() +"_V" + bill.getVersionPDF() + ".pdf";
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
         Document doc = new Document(pdfDoc);
 

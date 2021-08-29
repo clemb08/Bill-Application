@@ -71,7 +71,10 @@
             <Label text="Amount" GridPane.rowIndex="2" />
             <Label text="isCredited" GridPane.rowIndex="3" />
             <Label text="Date" GridPane.rowIndex="4" />
-            <TextField fx:id="billAccount" editable="false" GridPane.columnIndex="1" />
+            <TextField fx:id="billAccount" editable="false" GridPane.columnIndex="1">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></TextField>
             <TextField fx:id="billType" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="billAmount" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="billDate" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />

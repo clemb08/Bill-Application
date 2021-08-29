@@ -124,14 +124,28 @@ public class BillsController implements Initializable {
             }
         });
 
+        billAccount.setOnMouseClicked(event -> {
+            try {
+                if(listViewBills.getSelectionModel().getSelectedItem().getAccountId() != null) {
+                    navigation.navigateToAccounts(event, accounts, listViewBills.getSelectionModel().getSelectedItem().getAccountId(), myMenuBar);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
         generatePDF.setOnAction(event -> {
             Bill bill = listViewBills.getSelectionModel().getSelectedItem();
             List<Mission> missionsToBill = missionService.getAllMissionsByBill(missions, bill.getId());
+            int version = bill.getVersionPDF();
+            bill.setVersionPDF(version + 1);
             try {
                 pdfCreator.generatePDF(bill, missionsToBill);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+
+            billService.update(bills, bill);
         });
 
         listViewBills.setCellFactory(new Callback<>() {

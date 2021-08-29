@@ -21,6 +21,8 @@ public class Bill {
 
     public float amount;
 
+    public int versionPDF;
+
     public String getId() {
         return id;
     }
@@ -88,6 +90,13 @@ public class Bill {
         } else {
             this.number = "Bill-" + sizeList;
         }
+    }
 
+    public int getVersionPDF() {
+        return versionPDF;
+    }
+
+    public void setVersionPDF(int versionPDF) {
+        this.versionPDF = versionPDF;
     }
 }

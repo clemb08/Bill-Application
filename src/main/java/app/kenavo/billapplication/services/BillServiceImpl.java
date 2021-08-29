@@ -33,12 +33,13 @@ public class BillServiceImpl implements BillService {
         bill.setDate(record.get("Date"));
         bill.setAmount(parseFloat(record.get("Amount")));
         bill.setCredited(Boolean.parseBoolean(record.get("Credited")));
+        bill.setVersionPDF(Integer.parseInt(record.get("VersionPDF")));
 
         return bill;
     }
 
     public void writeBill(CSVPrinter csvPrinter, Bill bill) throws IOException {
-        csvPrinter.printRecord(bill.getId(), bill.getNumber(), bill.getAccountId(), bill.getType(), bill.getDate().toString(), bill.getAmount(),bill.isCredited());
+        csvPrinter.printRecord(bill.getId(), bill.getNumber(), bill.getAccountId(), bill.getType(), bill.getDate().toString(), bill.getAmount(),bill.isCredited(), bill.getVersionPDF());
     }
 
     @Override
@@ -108,6 +109,7 @@ public class BillServiceImpl implements BillService {
     public Bill create(Bill bill) {
 
         bill.setId(UUID.randomUUID().toString());
+        bill.setVersionPDF(0);
 
         try(
                 BufferedWriter writer = Files.newBufferedWriter(
@@ -138,7 +140,7 @@ public class BillServiceImpl implements BillService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(BILL_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                        .withHeader("ID", "Number", "AccountID", "Type", "Date", "Amount", "Credited"));) {
+                        .withHeader("ID", "Number", "AccountID", "Type", "Date", "Amount", "Credited", "VersionPDF"));) {
 
             for(Bill billToSave : billsToKeep) {
                 writeBill(csvPrinter, billToSave);
@@ -160,7 +162,7 @@ public class BillServiceImpl implements BillService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(BILL_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                        .withHeader("ID", "Number", "AccountID", "Type", "Date", "Amount", "Credited"));) {
+                        .withHeader("ID", "Number", "AccountID", "Type", "Date", "Amount", "Credited", "VersionPDF"));) {
 
             for(Bill billToSave : billsToKeep) {
                 writeBill(csvPrinter, billToSave);
