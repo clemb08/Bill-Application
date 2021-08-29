@@ -196,7 +196,15 @@ public class MissionsController implements Initializable {
 
     public void onSave(List<Mission> missions, Mission mission) throws IOException, ParseException {
         if(this.context == "create") {
-            mission.setNewNumber(missions.size() + 1);
+            final int[] highestNumber = {0};
+            missions.forEach(currentMission -> {
+                String[] numberString = currentMission.getNumber().split("-");
+                int number = Integer.parseInt(numberString[1]);
+                if(number > highestNumber[0]) {
+                    highestNumber[0] = number;
+                }
+            });
+            mission.setNewNumber(highestNumber[0] + 1);
         } else {
             mission.setNumber(mission.getNumber());
         }

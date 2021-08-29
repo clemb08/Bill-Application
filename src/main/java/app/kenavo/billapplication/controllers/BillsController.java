@@ -230,8 +230,17 @@ public class BillsController implements Initializable {
     }
 
     public void onSave(List<Bill> bills, Bill bill) throws IOException, ParseException {
+
         if(this.context == "create") {
-            bill.setNewNumber(bills.size() + 1);
+            final int[] highestNumber = {0};
+            bills.forEach(currentBill -> {
+                String[] numberString = currentBill.getNumber().split("-");
+                int number = Integer.parseInt(numberString[1]);
+                if(number > highestNumber[0]) {
+                    highestNumber[0] = number;
+                }
+            });
+            bill.setNewNumber(highestNumber[0] + 1);
         } else {
             bill.setNumber(bill.getNumber());
         }
