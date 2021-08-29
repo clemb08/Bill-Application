@@ -3,6 +3,7 @@ package app.kenavo.billapplication.controllers;
 import app.kenavo.billapplication.model.Account;
 import app.kenavo.billapplication.model.Bill;
 import app.kenavo.billapplication.model.Mission;
+import app.kenavo.billapplication.model.Setting;
 import app.kenavo.billapplication.services.*;
 import app.kenavo.billapplication.utils.AddColumn;
 import app.kenavo.billapplication.utils.Navigation;
@@ -67,6 +68,10 @@ public class BillsController implements Initializable {
     AccountService accountService = new AccountServiceImpl();
     BillService billService = new BillServiceImpl();
     MissionService missionService = new MissionsServiceImpl();
+
+    SettingService settingService = new SettingServiceImpl();
+    Setting setting = settingService.getSetting();
+
 
     PDFCreator pdfCreator = new PDFCreator();
 
@@ -333,7 +338,7 @@ public class BillsController implements Initializable {
 
     @FXML
     public void navigateToAccounts(ActionEvent event) throws IOException {
-        navigation.navigateToAccounts(event, null, null, myMenuBar);
+        navigation.navigateToAccounts(event, null,null, myMenuBar);
     }
 
     @FXML
@@ -344,5 +349,10 @@ public class BillsController implements Initializable {
     @FXML
     public void navigateToMissions(ActionEvent event) throws IOException {
         navigation.navigateToMissions(event, myMenuBar);
+    }
+
+    @FXML
+    public void navigateToSettings(ActionEvent event) throws IOException {
+        navigation.navigateToSettings(event, setting, myMenuBar);
     }
 }

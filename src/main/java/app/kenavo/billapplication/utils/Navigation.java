@@ -3,9 +3,11 @@ package app.kenavo.billapplication.utils;
 import app.kenavo.billapplication.controllers.AccountsController;
 import app.kenavo.billapplication.controllers.BillsController;
 import app.kenavo.billapplication.controllers.MissionsController;
+import app.kenavo.billapplication.controllers.SettingsController;
 import app.kenavo.billapplication.model.Account;
 import app.kenavo.billapplication.model.Bill;
 import app.kenavo.billapplication.model.Mission;
+import app.kenavo.billapplication.model.Setting;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,6 +20,31 @@ import java.io.IOException;
 import java.util.List;
 
 public class Navigation {
+
+    public void navigateToHome(Event event, MenuBar root) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/hello-view.fxml"));
+        Stage primaryStage = (Stage) root.getScene().getWindow();
+        Parent listProjects = loader.load();
+        primaryStage.setScene(new Scene(listProjects));
+        primaryStage.show();
+
+    }
+
+    public void navigateToSettings(Event event, Setting setting, MenuBar root) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/settings.fxml"));
+        Parent listProjects = loader.load();
+        SettingsController controller = loader.getController();
+        if(setting != null) {
+            controller.setContextSetting("view");
+        } else {
+            controller.setContextSetting("create");
+        }
+        Stage primaryStage = (Stage) root.getScene().getWindow();
+        primaryStage.setScene(new Scene(listProjects));
+        System.out.println(listProjects);
+        primaryStage.show();
+    }
+
 
     public void navigateToAccounts(Event event, List<Account> accounts, String accountId, MenuBar root) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/accounts.fxml"));
