@@ -2,10 +2,8 @@ package app.kenavo.billapplication.controllers;
 
 import app.kenavo.billapplication.model.Account;
 import app.kenavo.billapplication.model.Bill;
-import app.kenavo.billapplication.services.AccountService;
-import app.kenavo.billapplication.services.AccountServiceImpl;
-import app.kenavo.billapplication.services.BillService;
-import app.kenavo.billapplication.services.BillServiceImpl;
+import app.kenavo.billapplication.model.Setting;
+import app.kenavo.billapplication.services.*;
 import app.kenavo.billapplication.utils.Navigation;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,6 +50,8 @@ public class AccountsController implements Initializable {
     Navigation navigation = new Navigation();
     BillService billService = new BillServiceImpl();
     AccountService accountService = new AccountServiceImpl();
+    SettingService settingService = new SettingServiceImpl();
+    Setting setting = settingService.getSetting();
 
     Account cachedAccount = null;
     Account inProcessAccount = null;
@@ -288,7 +288,7 @@ public class AccountsController implements Initializable {
 
     @FXML
     public void navigateToAccounts(ActionEvent event) throws IOException {
-        navigation.navigateToAccounts(event, null, null, myMenuBar);
+        navigation.navigateToAccounts(event, null,null, myMenuBar);
     }
 
     @FXML
@@ -299,5 +299,10 @@ public class AccountsController implements Initializable {
     @FXML
     public void navigateToMissions(ActionEvent event) throws IOException {
         navigation.navigateToMissions(event, myMenuBar);
+    }
+
+    @FXML
+    public void navigateToSettings(ActionEvent event) throws IOException {
+        navigation.navigateToSettings(event, setting, myMenuBar);
     }
 }

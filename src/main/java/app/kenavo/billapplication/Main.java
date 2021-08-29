@@ -1,8 +1,12 @@
 package app.kenavo.billapplication;
 
+import app.kenavo.billapplication.controllers.SettingsController;
 import app.kenavo.billapplication.model.Account;
+import app.kenavo.billapplication.model.Setting;
 import app.kenavo.billapplication.services.AccountService;
 import app.kenavo.billapplication.services.AccountServiceImpl;
+import app.kenavo.billapplication.services.SettingService;
+import app.kenavo.billapplication.services.SettingServiceImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,9 +23,26 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+
+
+        SettingService settingService = new SettingServiceImpl();
+        Setting setting = settingService.getSetting();
+        Parent listProjects;
+
+        //If there is no Settings register get the user to the setting page
+        if(setting == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
+            listProjects = loader.load();
+            SettingsController controller = loader.getController();
+            controller.setContextSetting("create");
+            //If the settings exist get the User to the Welcome page
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            listProjects = loader.load();
+        }
+
         primaryStage.setTitle("Projects Management");
-        primaryStage.setScene(new Scene(root, 900, 450));
+        primaryStage.setScene(new Scene(listProjects));
 
         primaryStage.show();
     }
