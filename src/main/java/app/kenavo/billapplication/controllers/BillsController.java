@@ -12,7 +12,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,6 +36,9 @@ import java.util.stream.Collectors;
 import static java.lang.String.valueOf;
 
 public class BillsController implements Initializable {
+
+    @FXML
+    public MenuBar myMenuBar;
 
     @FXML public ListView<Bill> listViewBills;
     @FXML public TableView<Mission> tableMissions;
@@ -355,27 +357,4 @@ public class BillsController implements Initializable {
         listViewBills.getSelectionModel().select(bill);
     }
 
-    //--------------------------------NAVIGATE FUNCTIONS----------------------
-    @FXML
-    public MenuBar myMenuBar;
-
-    @FXML
-    public void navigateToAccounts(ActionEvent event) throws IOException {
-        navigation.navigateToAccounts(event, null,null, myMenuBar);
-    }
-
-    @FXML
-    public void navigateToBills(ActionEvent event) throws IOException {
-        navigation.navigateToBills(event, null, null, myMenuBar);
-    }
-
-    @FXML
-    public void navigateToMissions(ActionEvent event) throws IOException {
-        navigation.navigateToMissions(event, myMenuBar);
-    }
-
-    @FXML
-    public void navigateToSettings(ActionEvent event) throws IOException {
-        navigation.navigateToSettings(event, setting, myMenuBar);
-    }
 }

@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import app.kenavo.billapplication.controllers.NavBarController?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.MissionsController">
    <children>
-       <MenuBar fx:id="myMenuBar" layoutY="7.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="900.0" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-           <menus>
-               <Menu text="Menus">
-                   <items>
-                       <MenuItem mnemonicParsing="false" onAction="#navigateToAccounts" text="Accounts" />
-                       <MenuItem mnemonicParsing="false" onAction="#navigateToBills" text="Bills" />
-                       <MenuItem mnemonicParsing="false" onAction="#navigateToMissions" text="Missions" />
-                       <MenuItem mnemonicParsing="false" onAction="#navigateToSettings" text="Settings" />
-                   </items></Menu>
-           </menus>
-           <cursor>
-               <Cursor fx:constant="HAND" />
-           </cursor>
-       </MenuBar>
+       <NavBarController layoutY="7.0" />
        <Button fx:id="deleteMission" layoutX="152.0" layoutY="560.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="-" />
        <Button fx:id="createMission" layoutX="116.0" layoutY="560.0" mnemonicParsing="false" text="+" />
       <Separator layoutX="181.0" layoutY="36.0" orientation="VERTICAL" prefHeight="565.0" prefWidth="17.0" />
