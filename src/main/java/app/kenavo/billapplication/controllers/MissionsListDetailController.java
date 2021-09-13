@@ -11,8 +11,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
@@ -25,11 +27,11 @@ import java.util.ResourceBundle;
 
 import static java.lang.String.valueOf;
 
-public class MissionsController implements Initializable {
+public class MissionsListDetailController extends AnchorPane implements Initializable {
 
 
     @FXML
-    public MenuBar myMenuBar;
+    public AnchorPane missionRoot;
 
     @FXML public ListView<Mission> listViewMissions;
     @FXML public Text missionId;
@@ -68,6 +70,19 @@ public class MissionsController implements Initializable {
     Mission inProcessMission = null;
     String context = "";
 
+    public MissionsListDetailController() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/missions_List_Detail.fxml"));
+
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -105,7 +120,7 @@ public class MissionsController implements Initializable {
         missionAccount.setOnMouseClicked(event -> {
             try {
                 if(listViewMissions.getSelectionModel().getSelectedItem().getAccountId() != null) {
-                    navigation.navigateToAccounts(event, accounts, listViewMissions.getSelectionModel().getSelectedItem().getAccountId(), myMenuBar);
+                    navigation.navigateToAccount(event, listViewMissions.getSelectionModel().getSelectedItem().getAccountId(), accounts);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -115,7 +130,7 @@ public class MissionsController implements Initializable {
         missionBill.setOnMouseClicked(event -> {
             try {
                 if(listViewMissions.getSelectionModel().getSelectedItem().getBillId() != "None") {
-                    navigation.navigateToBills(event, bills, listViewMissions.getSelectionModel().getSelectedItem().getBillId(), myMenuBar);
+                    navigation.navigateToBill(event, listViewMissions.getSelectionModel().getSelectedItem().getBillId(), bills);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

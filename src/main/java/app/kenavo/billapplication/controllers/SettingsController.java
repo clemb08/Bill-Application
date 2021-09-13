@@ -5,17 +5,19 @@ import app.kenavo.billapplication.services.SettingService;
 import app.kenavo.billapplication.services.SettingServiceImpl;
 import app.kenavo.billapplication.utils.Navigation;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SettingsController implements Initializable {
+public class SettingsController extends AnchorPane implements Initializable {
 
     @FXML
     public MenuBar myMenuBar;
@@ -40,6 +42,19 @@ public class SettingsController implements Initializable {
     Setting setting = settingService.getSetting();
 
     String context = "";
+
+    public SettingsController() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/settings_Detail.fxml"));
+
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
