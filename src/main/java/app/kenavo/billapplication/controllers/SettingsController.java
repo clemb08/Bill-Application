@@ -12,7 +12,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +33,10 @@ public class SettingsController extends AnchorPane implements Initializable {
     @FXML public TextField settingLogo;
     @FXML public TextField settingSiret;
     @FXML public TextField settingDownloadPath;
+    @FXML public Button chooseDownloadPath;
+    @FXML public Text textDownloadPath;
+    @FXML public Button chooseLogo;
+    @FXML public Text textLogo;
 
     @FXML public Text messageCreate;
 
@@ -37,6 +45,8 @@ public class SettingsController extends AnchorPane implements Initializable {
     @FXML public Button settingEdit;
 
     Navigation navigation = new Navigation();
+    final FileChooser fileChooser = new FileChooser();
+    final DirectoryChooser dirChooser = new DirectoryChooser();
 
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
@@ -60,6 +70,14 @@ public class SettingsController extends AnchorPane implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(this.context);
 
+        settingCompanyName.setText(setting.getCompanyName());
+        settingAddress.setText(setting.getAddress());
+        settingEmail.setText(setting.getEmail());
+        settingPhone.setText(setting.getPhone());
+        settingLogo.setText(setting.getLogo());
+        settingSiret.setText(setting.getSiret());
+        settingDownloadPath.setText(setting.getDownloadPath());
+
         settingSave.setOnAction(event -> {
             onSave();
 
@@ -72,8 +90,24 @@ public class SettingsController extends AnchorPane implements Initializable {
             }
         });
 
-        settingEdit.setOnAction(event -> { onEdit();});
+        settingEdit.setOnAction(event -> onEdit());
         settingCancel.setOnAction(event -> onCancel());
+
+        chooseDownloadPath.setOnAction(event -> {
+            Stage stage = new Stage();
+            stage.setTitle("Choose a download path");
+            File file = dirChooser.showDialog(stage);
+            System.out.println(file);
+            textDownloadPath.setText(file.getAbsolutePath());
+        });
+
+        chooseLogo.setOnAction(event -> {
+            Stage stage = new Stage();
+            stage.setTitle("Choose a logo file");
+            File file = fileChooser.showOpenDialog(stage);
+            System.out.println(file);
+            textLogo.setText(file.getAbsolutePath());
+        });
     }
 
     public void onEdit() {
@@ -91,9 +125,9 @@ public class SettingsController extends AnchorPane implements Initializable {
         setting.setAddress(settingAddress.getText());
         setting.setEmail(settingEmail.getText());
         setting.setPhone(settingPhone.getText());
-        setting.setLogo(settingLogo.getText());
+        setting.setLogo(textLogo.getText());
         setting.setSiret(settingSiret.getText());
-        setting.setDownloadPath(settingDownloadPath.getText());
+        setting.setDownloadPath(textDownloadPath.getText());
         settingService.setSetting(setting);
         displayReadOnlyScreen();
     }
@@ -103,9 +137,13 @@ public class SettingsController extends AnchorPane implements Initializable {
         settingAddress.setEditable(true);
         settingEmail.setEditable(true);
         settingPhone.setEditable(true);
-        settingLogo.setEditable(true);
+        settingLogo.setVisible(false);
+        chooseLogo.setVisible(true);
+        textLogo.setVisible(true);
         settingSiret.setEditable(true);
-        settingDownloadPath.setEditable(true);
+        settingDownloadPath.setVisible(false);
+        chooseDownloadPath.setVisible(true);
+        textDownloadPath.setVisible(true);
         settingEdit.setVisible(false);
         settingSave.setVisible(true);
         settingCancel.setVisible(true);
@@ -116,9 +154,13 @@ public class SettingsController extends AnchorPane implements Initializable {
         settingAddress.setEditable(false);
         settingEmail.setEditable(false);
         settingPhone.setEditable(false);
-        settingLogo.setEditable(false);
+        settingLogo.setVisible(true);
+        chooseLogo.setVisible(false);
+        textLogo.setVisible(false);
         settingSiret.setEditable(false);
-        settingDownloadPath.setEditable(false);
+        settingDownloadPath.setVisible(true);
+        chooseDownloadPath.setVisible(false);
+        textDownloadPath.setVisible(false);
         settingEdit.setVisible(true);
         settingSave.setVisible(false);
         settingCancel.setVisible(false);
