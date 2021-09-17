@@ -159,6 +159,8 @@ public class BillsListDetailController extends AnchorPane implements Initializab
                 pdfCreator.generatePDF(bill, missionsToBill);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             billService.update(bills, bill);

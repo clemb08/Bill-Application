@@ -7,6 +7,7 @@ module app.kenavo.billapplication {
     requires layout;
     requires io;
 
+
     opens app.kenavo.billapplication to javafx.fxml;
     opens app.kenavo.billapplication.controllers to javafx.fxml;
     opens app.kenavo.billapplication.model to javafx.base;
