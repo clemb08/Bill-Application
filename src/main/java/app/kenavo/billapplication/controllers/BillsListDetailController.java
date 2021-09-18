@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
 import static app.kenavo.billapplication.utils.ValidationFields.checkRequired;
+import static app.kenavo.billapplication.utils.ValidationFields.checkRequiredFields;
 import static java.lang.String.valueOf;
 
 public class BillsListDetailController extends AnchorPane implements Initializable {
@@ -54,6 +55,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     @FXML public Text billId;
     @FXML public GridPane gridPane;
     @FXML public TextField billAccount;
+    @FXML public Text billAccountError;
     @FXML public TextField billType;
     @FXML public Text billTypeError;
     @FXML public TextField billAmount;
@@ -275,6 +277,11 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     }
 
     public void onSave(List<Bill> bills, Bill bill) throws IOException, ParseException {
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(billAccount, billAccountError);
+        fields.put(billType, billTypeError);
+        checkRequiredFields(errors, fields);
+
         if(errors.size() == 0) {
             if(this.context == "create") {
                 final int[] highestNumber = {0};

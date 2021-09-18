@@ -84,7 +84,6 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
         //Validation Form Edit or Create
         accountTitleField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
@@ -280,6 +279,11 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     }
 
     public void onSave(List<Account> accounts, Account account) throws IOException {
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(accountTitleField, accountTitleError);
+        fields.put(accountAddress, accountAddressError);
+        checkRequiredFields(errors, fields);
+
         if(errors.size() == 0) {
             account.setName(accountTitleField.getText());
             account.setAddress(accountAddress.getText());

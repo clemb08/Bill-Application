@@ -115,5 +115,10 @@
                 <Text fx:id="billTypeError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
             </children>
         </TilePane>
+      <TilePane alignment="CENTER_LEFT" layoutX="307.0" layoutY="119.0" prefHeight="24.0" prefWidth="297.0">
+         <children>
+            <Text fx:id="billAccountError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
     </children>
 </fx:root>

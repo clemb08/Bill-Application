@@ -42,6 +42,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
     @FXML public TextField missionType;
     @FXML public Text missionTypeError;
     @FXML public TextField missionAccount;
+    @FXML public Text missionAccountError;
     @FXML public TextField missionBill;
     @FXML public TextField missionPrice;
     @FXML public Text missionPriceError;
@@ -255,6 +256,14 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
     }
 
     public void onSave(List<Mission> missions, Mission mission) throws IOException, ParseException {
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(missionAccount, missionAccountError);
+        fields.put(missionPrice, missionPriceError);
+        fields.put(missionQuantity, missionQuantityError);
+        fields.put(missionType, missionTypeError);
+        fields.put(missionDescription, missionDescriptionError);
+        checkRequiredFields(errors, fields);
+
         if(errors.size() == 0) {
             if(this.context == "create") {
                 final int[] highestNumber = {0};

@@ -140,4 +140,10 @@ public class ValidationFields {
             }
         }
     }
+
+    public static void checkRequiredFields(Map<TextField, String> map, Map<TextField, Text> fields) {
+        for (Map.Entry<TextField, Text> entry : fields.entrySet()) {
+            checkRequired(map, entry.getValue(), entry.getKey());
+        };
+    }
 }

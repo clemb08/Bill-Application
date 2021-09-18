@@ -168,6 +168,16 @@ public class SettingsController extends AnchorPane implements Initializable {
     }
 
     public void onSave() {
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(settingCompanyName, settingNameError);
+        fields.put(settingAddress, settingAddressError);
+        fields.put(settingEmail, settingEmailError);
+        fields.put(settingPhone, settingPhoneError);
+        fields.put(settingDownloadPath, settingPathError);
+        fields.put(settingLogo, settingLogoError);
+        fields.put(settingSiret, settingSiretError);
+        checkRequiredFields(errors, fields);
+
         if(errors.size() == 0) {
             Setting setting = new Setting();
             setting.setCompanyName(settingCompanyName.getText());
