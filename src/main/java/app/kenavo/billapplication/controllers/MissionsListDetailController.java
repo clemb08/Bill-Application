@@ -22,9 +22,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
+import static app.kenavo.billapplication.utils.ValidationFields.*;
 import static java.lang.String.valueOf;
 
 public class MissionsListDetailController extends AnchorPane implements Initializable {
@@ -36,13 +40,17 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
     @FXML public ListView<Mission> listViewMissions;
     @FXML public Text missionId;
     @FXML public TextField missionType;
+    @FXML public Text missionTypeError;
     @FXML public TextField missionAccount;
     @FXML public TextField missionBill;
     @FXML public TextField missionPrice;
+    @FXML public Text missionPriceError;
     @FXML public CheckBox missionBilled;
     @FXML public TextField missionDate;
     @FXML public TextField missionDescription;
+    @FXML public Text missionDescriptionError;
     @FXML public TextField missionQuantity;
+    @FXML public Text missionQuantityError;
 
     @FXML public ChoiceBox<Bill> picklistBills;
     @FXML public ChoiceBox<Account> picklistAccounts;
@@ -65,6 +73,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
+    Map<TextField, String> errors = new HashMap<TextField, String>();
 
     Mission cachedMission = null;
     Mission inProcessMission = null;
@@ -85,6 +94,38 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Validation Form Edit or Create
+        missionType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, missionTypeError, missionType);
+            }
+        });
+
+        missionDescription.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, missionDescriptionError, missionDescription);
+            }
+        });
+
+        missionPrice.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                Boolean notBlank = checkRequired(errors, missionPriceError, missionPrice);
+                if(notBlank) {
+                    checkNumber(errors, missionPriceError, missionPrice);
+                    if(!errors.containsKey(missionPrice)) {
+                        checkRangeNumber(errors, missionPriceError, missionPrice, 1, null);
+                    }
+                }
+            }
+        });
+
+        missionQuantity.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, missionQuantityError, missionQuantity);
+            }
+        });
+
 
         ObservableList<Mission> observableMissions = FXCollections.observableArrayList();
         observableMissions.addAll(missions);
@@ -210,50 +251,56 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
         displayReadOnlyScreen(this.cachedMission);
         this.context = "";
+        errors = new HashMap<TextField, String>();
     }
 
     public void onSave(List<Mission> missions, Mission mission) throws IOException, ParseException {
-        if(this.context == "create") {
-            final int[] highestNumber = {0};
-            missions.forEach(currentMission -> {
-                String[] numberString = currentMission.getNumber().split("-");
-                int number = Integer.parseInt(numberString[1]);
-                if(number > highestNumber[0]) {
-                    highestNumber[0] = number;
-                }
-            });
-            mission.setNewNumber(highestNumber[0] + 1);
+        if(errors.size() == 0) {
+            if(this.context == "create") {
+                final int[] highestNumber = {0};
+                missions.forEach(currentMission -> {
+                    String[] numberString = currentMission.getNumber().split("-");
+                    int number = Integer.parseInt(numberString[1]);
+                    if(number > highestNumber[0]) {
+                        highestNumber[0] = number;
+                    }
+                });
+                mission.setNewNumber(highestNumber[0] + 1);
+            } else {
+                mission.setNumber(mission.getNumber());
+            }
+
+            mission.setAccountId(picklistAccounts.getSelectionModel().getSelectedItem().getId());
+            if(picklistBills.getSelectionModel().getSelectedItem() != null) {
+                mission.setBillId(picklistBills.getSelectionModel().getSelectedItem().getId());
+                Bill bill = billService.getBillById(bills, mission.getBillId());
+                Bill updatedBill = billService.getAmountBill(bill, missions);
+                billService.update(bills, updatedBill);
+            } else {
+                mission.setBillId("None");
+            }
+            mission.setType(missionType.getText());
+            mission.setPrice(Float.parseFloat(missionPrice.getText()));
+            mission.setDate(datePicker.getValue().toString());
+            mission.setBilled(missionBilled.isSelected());
+
+            Account account = accountService.getAccountById(accounts, mission.getAccountId());
+
+            if(this.context.equals("create")) {
+                missionService.create(mission);
+            } else if(this.context.equals("edit")) {
+                missionService.update(missions, mission);
+            }
+
+            Account updatedAccount = accountService.getCAAccount(account, missions);
+            accountService.update(accounts, updatedAccount);
+
+            displayReadOnlyScreen(mission);
+            this.context = "";
         } else {
-            mission.setNumber(mission.getNumber());
+            alertOnErrorSave("Mission", errors);
         }
 
-        mission.setAccountId(picklistAccounts.getSelectionModel().getSelectedItem().getId());
-        if(picklistBills.getSelectionModel().getSelectedItem() != null) {
-            mission.setBillId(picklistBills.getSelectionModel().getSelectedItem().getId());
-            Bill bill = billService.getBillById(bills, mission.getBillId());
-            Bill updatedBill = billService.getAmountBill(bill, missions);
-            billService.update(bills, updatedBill);
-        } else {
-            mission.setBillId("None");
-        }
-        mission.setType(missionType.getText());
-        mission.setPrice(Float.parseFloat(missionPrice.getText()));
-        mission.setDate(datePicker.getValue().toString());
-        mission.setBilled(missionBilled.isSelected());
-
-        Account account = accountService.getAccountById(accounts, mission.getAccountId());
-
-        if(this.context.equals("create")) {
-            missionService.create(mission);
-        } else if(this.context.equals("edit")) {
-            missionService.update(missions, mission);
-        }
-
-        Account updatedAccount = accountService.getCAAccount(account, missions);
-        accountService.update(accounts, updatedAccount);
-
-        displayReadOnlyScreen(mission);
-        this.context = "";
     }
 
     public void onDelete(List<Mission> missions) {

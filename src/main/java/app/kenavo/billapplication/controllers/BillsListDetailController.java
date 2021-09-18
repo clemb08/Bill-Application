@@ -30,10 +30,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
+import static app.kenavo.billapplication.utils.ValidationFields.checkRequired;
 import static java.lang.String.valueOf;
 
 public class BillsListDetailController extends AnchorPane implements Initializable {
@@ -51,6 +55,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     @FXML public GridPane gridPane;
     @FXML public TextField billAccount;
     @FXML public TextField billType;
+    @FXML public Text billTypeError;
     @FXML public TextField billAmount;
     @FXML public CheckBox billCredited;
     @FXML public TextField billDate;
@@ -75,7 +80,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
 
-
+    Map<TextField, String> errors = new HashMap<TextField, String>();
     PDFCreator pdfCreator = new PDFCreator();
 
     Bill cachedBill = null;
@@ -97,6 +102,13 @@ public class BillsListDetailController extends AnchorPane implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Validation Form Edit or Create
+        billType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, billTypeError, billType);
+            }
+        });
 
         List<Account> accounts = accountService.getAllAccounts();
         List<Bill> bills = billService.getAllBills();
@@ -259,42 +271,46 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         System.out.println(this.cachedBill);
         displayReadOnlyScreen(this.cachedBill);
         this.context = "";
+        errors = new HashMap<TextField, String>();
     }
 
     public void onSave(List<Bill> bills, Bill bill) throws IOException, ParseException {
+        if(errors.size() == 0) {
+            if(this.context == "create") {
+                final int[] highestNumber = {0};
+                bills.forEach(currentBill -> {
+                    String[] numberString = currentBill.getNumber().split("-");
+                    int number = Integer.parseInt(numberString[1]);
+                    if(number > highestNumber[0]) {
+                        highestNumber[0] = number;
+                    }
+                });
+                bill.setNewNumber(highestNumber[0] + 1);
+            } else {
+                bill.setNumber(bill.getNumber());
+            }
 
-        if(this.context == "create") {
-            final int[] highestNumber = {0};
-            bills.forEach(currentBill -> {
-                String[] numberString = currentBill.getNumber().split("-");
-                int number = Integer.parseInt(numberString[1]);
-                if(number > highestNumber[0]) {
-                    highestNumber[0] = number;
-                }
-            });
-            bill.setNewNumber(highestNumber[0] + 1);
+            bill.setAccountId(picklistAccounts.getSelectionModel().getSelectedItem().getId());
+            bill.setType(billType.getText());
+            if(this.context == "create") {
+                bill.setAmount(0);
+            } else {
+                bill.setAmount(bill.getAmount());
+            }
+            System.out.println(datePicker.getValue());
+            bill.setDate(datePicker.getValue().toString());
+            bill.setCredited(billCredited.isSelected());
+
+            if(this.context.equals("create")) {
+                billService.create(bill);
+            } else if(this.context.equals("edit")) {
+                billService.update(bills, bill);
+            }
+            displayReadOnlyScreen(bill);
+            this.context = "";
         } else {
-            bill.setNumber(bill.getNumber());
+            alertOnErrorSave("Bill", errors);
         }
-
-        bill.setAccountId(picklistAccounts.getSelectionModel().getSelectedItem().getId());
-        bill.setType(billType.getText());
-        if(this.context == "create") {
-            bill.setAmount(0);
-        } else {
-            bill.setAmount(bill.getAmount());
-        }
-        System.out.println(datePicker.getValue());
-        bill.setDate(datePicker.getValue().toString());
-        bill.setCredited(billCredited.isSelected());
-
-        if(this.context.equals("create")) {
-            billService.create(bill);
-        } else if(this.context.equals("edit")) {
-            billService.update(bills, bill);
-        }
-        displayReadOnlyScreen(bill);
-        this.context = "";
     }
 
     public void onDelete(List<Bill> bills) {
