@@ -22,9 +22,12 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import static app.kenavo.billapplication.utils.ValidationFields.*;
 import static java.lang.String.valueOf;
 
 public class AccountsListDetailController extends AnchorPane implements Initializable {
@@ -34,10 +37,15 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @FXML public Text accountTitle;
     @FXML public GridPane gridPaneAccount;
     @FXML public TextField accountTitleField;
+    @FXML public Text accountTitleError;
     @FXML public TextField accountAddress;
+    @FXML public Text accountAddressError;
     @FXML public TextField accountContact;
+    @FXML public Text accountContactError;
     @FXML public TextField accountEmail;
+    @FXML public Text accountEmailError;
     @FXML public TextField accountPhone;
+    @FXML public Text accountPhoneError;
     @FXML public TextField accountCA;
     @FXML public Label billsLabel;
 
@@ -47,6 +55,9 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @FXML public Button accountSave;
     @FXML public Button accountCancel;
 
+
+
+    Map<TextField, String> errors = new HashMap<TextField, String>();
 
     Navigation navigation = new Navigation();
     BillService billService = new BillServiceImpl();
@@ -73,6 +84,42 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Validation Form Edit or Create
+        accountTitleField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, accountTitleError, accountTitleField);
+            }
+        });
+
+        accountContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, accountContactError, accountContact);
+            }
+        });
+
+        accountAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            Boolean notBlank;
+            if (!newValue) { // when focus lost
+                notBlank = checkRequired(errors, accountAddressError, accountAddress);
+                if (!notBlank) {
+                    checkAddress(errors, accountAddressError, accountAddress);
+                }
+            }
+        });
+
+        accountEmail.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            System.out.println("lost focus Email");
+            if (!newValue) { // when focus lost
+                checkEmail(errors, accountEmailError, accountEmail);
+            }
+        });
+
+        accountPhone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkPhone(errors, accountPhoneError, accountPhone);
+            }
+        });
 
         List<Account> accounts = accountService.getAllAccounts();
         List<Bill> bills = billService.getAllBills();

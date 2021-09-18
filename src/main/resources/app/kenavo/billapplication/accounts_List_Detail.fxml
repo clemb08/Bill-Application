@@ -17,7 +17,7 @@
 
 <fx:root prefHeight="550.0" prefWidth="900.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="900.0">
             <children>
                 <Button fx:id="deleteAccount" layoutX="152.0" layoutY="560.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="-" />
                 <Button fx:id="createAccount" layoutX="116.0" layoutY="560.0" mnemonicParsing="false" text="+" />
@@ -89,5 +89,30 @@
                 <Button fx:id="accountCancel" layoutX="554.0" layoutY="560.0" mnemonicParsing="false" text="Cancel" visible="false" />
             </children>
         </AnchorPane>
+      <TilePane alignment="CENTER_LEFT" layoutX="198.0" layoutY="139.0" prefHeight="24.0" prefWidth="330.0">
+         <children>
+            <Text fx:id="accountTitleError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
+      <TilePane alignment="CENTER_LEFT" layoutX="539.0" layoutY="137.0" prefHeight="24.0" prefWidth="331.0">
+         <children>
+            <Text fx:id="accountAddressError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
+      <TilePane alignment="CENTER_LEFT" layoutX="549.0" layoutY="206.0" prefHeight="24.0" prefWidth="331.0">
+         <children>
+            <Text fx:id="accountEmailError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
+      <TilePane alignment="CENTER_LEFT" layoutX="205.0" layoutY="212.0" prefHeight="24.0" prefWidth="331.0">
+         <children>
+            <Text fx:id="accountContactError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
+      <TilePane alignment="CENTER_LEFT" layoutX="537.0" layoutY="276.0" prefHeight="24.0" prefWidth="324.0">
+         <children>
+            <Text fx:id="accountPhoneError" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="LEFT" visible="false" wrappingWidth="330.7294921875" />
+         </children>
+      </TilePane>
     </children>
 </fx:root>
