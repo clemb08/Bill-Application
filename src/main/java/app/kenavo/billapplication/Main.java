@@ -24,7 +24,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-
         SettingService settingService = new SettingServiceImpl();
         Setting setting = settingService.getSetting();
         Parent listProjects;
@@ -37,7 +36,7 @@ public class Main extends Application {
             controller.setContextSetting("create");
             //If the settings exist get the User to the Welcome page
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
             listProjects = loader.load();
         }
 

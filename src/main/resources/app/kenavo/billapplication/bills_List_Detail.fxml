@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -23,19 +24,19 @@
 
 <fx:root prefHeight="550.0" prefWidth="900.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane fx:id="rootBill" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+        <AnchorPane fx:id="rootBill" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
            <children>
                <Button fx:id="deleteBill" layoutX="152.0" layoutY="560.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="29.0" text="-" />
                <Button fx:id="createBill" layoutX="116.0" layoutY="560.0" mnemonicParsing="false" text="+" />
-              <Separator layoutX="181.0" layoutY="36.0" orientation="VERTICAL" prefHeight="565.0" prefWidth="17.0" />
-               <AnchorPane layoutX="3.0" layoutY="68.0" prefHeight="484.0" prefWidth="181.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="716.0" AnchorPane.topAnchor="68.0">
+              <Separator layoutX="181.0" layoutY="1.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="17.0" />
+               <AnchorPane layoutX="3.0" layoutY="37.0" prefHeight="484.0" prefWidth="181.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="716.0" AnchorPane.topAnchor="37.0">
                    <children>
                         <ListView fx:id="listViewBills" layoutY="13.0" prefHeight="469.0" prefWidth="181.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                    </children>
                </AnchorPane>
-               <TilePane alignment="CENTER" layoutX="3.0" layoutY="36.0" prefHeight="36.0" prefWidth="181.0">
+               <TilePane alignment="CENTER" layoutX="3.0" layoutY="4.0" prefHeight="36.0" prefWidth="181.0">
                  <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bills" textAlignment="CENTER" wrappingWidth="166.7294921875" />
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Bills" textAlignment="CENTER" wrappingWidth="166.7294921875" />
                  </children>
               </TilePane>
               <GridPane fx:id="gridPane" alignment="CENTER" hgap="10.0" layoutX="190.0" layoutY="79.0" prefHeight="274.0" prefWidth="643.0" vgap="20.0">
@@ -71,9 +72,9 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                  </padding>
               </GridPane>
-              <FlowPane alignment="CENTER" layoutX="191.0" layoutY="42.0" prefHeight="36.0" prefWidth="643.0">
+              <FlowPane alignment="CENTER" layoutX="191.0" layoutY="10.0" prefHeight="36.0" prefWidth="643.0">
                  <children>
-                    <Text fx:id="billId" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER">
+                    <Text fx:id="billId" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Text" textAlignment="CENTER">
                        <font>
                           <Font size="24.0" />
                        </font>
@@ -121,4 +122,7 @@
          </children>
       </TilePane>
     </children>
+    <stylesheets>
+        <URL value="@css/global.css" />
+    </stylesheets>
 </fx:root>

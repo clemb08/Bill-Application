@@ -19,7 +19,7 @@ import java.util.List;
 public class Navigation {
 
     public void navigateToHome(Event event, MenuBar root) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/hello-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/home.fxml"));
         Stage primaryStage = (Stage) root.getScene().getWindow();
         Parent listProjects = loader.load();
         primaryStage.setScene(new Scene(listProjects));
