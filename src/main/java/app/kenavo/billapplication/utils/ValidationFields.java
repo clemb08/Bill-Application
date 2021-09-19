@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ValidationFields {
 
     public static final Pattern VALID_ADDRESS =
-            Pattern.compile("^[A-Z0-9._%+-],[A-Z0-9.-]$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^[A-Z0-9._%+-],[A-Z0-9.-]+$", Pattern.CASE_INSENSITIVE);
     public static final Pattern VALID_EMAIL_ADDRESS =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public static  final Pattern VALID_PHONE_NUMBER =
