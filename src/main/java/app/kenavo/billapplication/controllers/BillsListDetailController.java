@@ -247,6 +247,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         }
         billType.setText(bill.getType());
         billDate.setText(String.valueOf(bill.getDate()));
+        editBill.setVisible(true);
         return bill;
     }
 
@@ -366,6 +367,8 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         listViewBills.setVisible(false);
         missionsLabel.setVisible(false);
         editBill.setVisible(false);
+        generatePDF.setVisible(false);
+        addMission.setVisible(false);
 
         billSave.setVisible(true);
         billCancel.setVisible(true);
@@ -385,6 +388,8 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         listViewBills.setVisible(true);
         missionsLabel.setVisible(true);
         editBill.setVisible(true);
+        generatePDF.setVisible(true);
+        addMission.setVisible(true);
 
         billSave.setVisible(false);
         billCancel.setVisible(false);

@@ -239,6 +239,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
         }
         missionType.setText(mission.getType());
         missionDate.setText(String.valueOf(mission.getDate()));
+        editMission.setVisible(true);
         return mission;
     }
 
