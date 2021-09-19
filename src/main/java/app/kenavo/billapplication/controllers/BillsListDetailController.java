@@ -30,10 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
@@ -83,6 +80,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     Setting setting = settingService.getSetting();
 
     Map<TextField, String> errors = new HashMap<TextField, String>();
+    List<Text> errorFields = new ArrayList<Text>();
     PDFCreator pdfCreator = new PDFCreator();
 
     Bill cachedBill = null;
@@ -104,6 +102,10 @@ public class BillsListDetailController extends AnchorPane implements Initializab
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Complete a list of error fields to be able to hide them on cancel
+        errorFields.add(billTypeError);
+        errorFields.add(billAccountError);
 
         //Validation Form Edit or Create
         billType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
@@ -274,6 +276,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         displayReadOnlyScreen(this.cachedBill);
         this.context = "";
         errors = new HashMap<TextField, String>();
+        errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave(List<Bill> bills, Bill bill) throws IOException, ParseException {

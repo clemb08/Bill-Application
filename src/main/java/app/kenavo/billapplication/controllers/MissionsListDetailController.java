@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
 import static app.kenavo.billapplication.utils.ValidationFields.*;
@@ -75,6 +72,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
     Map<TextField, String> errors = new HashMap<TextField, String>();
+    List<Text> errorFields = new ArrayList<Text>();
 
     Mission cachedMission = null;
     Mission inProcessMission = null;
@@ -95,6 +93,13 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Complete a list of error fields to be able to hide them on cancel
+        errorFields.add(missionAccountError);
+        errorFields.add(missionDescriptionError);
+        errorFields.add(missionPriceError);
+        errorFields.add(missionTypeError);
+        errorFields.add(missionQuantityError);
 
         //Validation Form Edit or Create
         missionType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
@@ -253,6 +258,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
         displayReadOnlyScreen(this.cachedMission);
         this.context = "";
         errors = new HashMap<TextField, String>();
+        errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave(List<Mission> missions, Mission mission) throws IOException, ParseException {

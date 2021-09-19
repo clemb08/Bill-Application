@@ -21,10 +21,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
 import static app.kenavo.billapplication.utils.ValidationFields.*;
@@ -57,6 +54,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
 
 
     Map<TextField, String> errors = new HashMap<TextField, String>();
+    List<Text> errorFields = new ArrayList<Text>();
 
     Navigation navigation = new Navigation();
     BillService billService = new BillServiceImpl();
@@ -83,6 +81,13 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Complete a list of error fields to be able to hide them on cancel
+        errorFields.add(accountEmailError);
+        errorFields.add(accountAddressError);
+        errorFields.add(accountPhoneError);
+        errorFields.add(accountContactError);
+        errorFields.add(accountTitleError);
 
         //Validation Form Edit or Create
         accountTitleField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
@@ -276,6 +281,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         displayReadOnlyScreen(this.cachedAccount);
         this.context = "";
         errors = new HashMap<TextField, String>();
+        errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave(List<Account> accounts, Account account) throws IOException {

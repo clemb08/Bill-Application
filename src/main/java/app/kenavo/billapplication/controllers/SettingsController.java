@@ -19,9 +19,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
 import static app.kenavo.billapplication.utils.ValidationFields.*;
@@ -64,6 +62,7 @@ public class SettingsController extends AnchorPane implements Initializable {
     Setting setting = settingService.getSetting();
 
     Map<TextField, String> errors = new HashMap<TextField, String>();
+    List<Text> errorFields = new ArrayList<Text>();
 
     String context = "";
 
@@ -82,6 +81,15 @@ public class SettingsController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Complete a list of error fields to be able to hide them on cancel
+        errorFields.add(settingEmailError);
+        errorFields.add(settingAddressError);
+        errorFields.add(settingLogoError);
+        errorFields.add(settingNameError);
+        errorFields.add(settingPathError);
+        errorFields.add(settingPhoneError);
+        errorFields.add(settingSiretError);
 
         //Validation Form Edit or Create
         settingCompanyName.focusedProperty().addListener((arg0, oldValue, newValue) -> {
@@ -165,6 +173,7 @@ public class SettingsController extends AnchorPane implements Initializable {
     public void onCancel() {
         displayReadOnlyScreen();
         errors = new HashMap<TextField, String>();
+        errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave() {
