@@ -74,7 +74,7 @@
               </GridPane>
               <FlowPane alignment="CENTER" layoutX="191.0" layoutY="10.0" prefHeight="36.0" prefWidth="643.0">
                  <children>
-                    <Text fx:id="billId" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Text" textAlignment="CENTER">
+                    <Text fx:id="billId" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" textAlignment="CENTER">
                        <font>
                           <Font size="24.0" />
                        </font>

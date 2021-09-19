@@ -85,14 +85,14 @@
               </GridPane>
               <FlowPane alignment="CENTER" layoutX="191.0" layoutY="18.0" prefHeight="36.0" prefWidth="646.0">
                  <children>
-                    <Text fx:id="missionId" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Text" textAlignment="CENTER">
+                    <Text fx:id="missionId" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" textAlignment="CENTER">
                        <font>
                           <Font size="24.0" />
                        </font>
                     </Text>
                  </children>
               </FlowPane>
-               <Button fx:id="editMission" layoutX="830.0" layoutY="83.0" mnemonicParsing="false" text="Edit" />
+               <Button fx:id="editMission" layoutX="830.0" layoutY="83.0" mnemonicParsing="false" text="Edit" visible="false" />
               <Button fx:id="missionCancel" layoutX="460.0" layoutY="520.0" mnemonicParsing="false" text="Cancel" visible="false" />
               <Button fx:id="missionSave" layoutX="396.0" layoutY="520.0" mnemonicParsing="false" text="Save" visible="false" />
            </children>

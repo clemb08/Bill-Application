@@ -65,14 +65,14 @@
                 </GridPane>
                 <FlowPane alignment="CENTER" layoutX="190.0" layoutY="5.0" prefHeight="51.0" prefWidth="706.0">
                     <children>
-                        <Text fx:id="accountTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Text" textAlignment="CENTER">
+                        <Text fx:id="accountTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" textAlignment="CENTER">
                             <font>
                                 <Font size="24.0" />
                             </font>
                         </Text>
                     </children>
                 </FlowPane>
-                <Button fx:id="editAccount" layoutX="837.0" layoutY="55.0" mnemonicParsing="false" text="Edit" />
+                <Button fx:id="editAccount" layoutX="837.0" layoutY="55.0" mnemonicParsing="false" text="Edit" visible="false" />
                 <GridPane layoutX="198.0" layoutY="312.0" prefHeight="238.0" prefWidth="643.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" prefWidth="20.0" />

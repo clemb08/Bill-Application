@@ -189,6 +189,8 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
                         if(newValue.getName() != null) {
                             displayAccountSelected(newValue);
                             displayBillsAccountSelected(bills, newValue);
+                            System.out.println("Edit Button Visible");
+                            editAccount.setVisible(true);
                         } else {
                             resetAccountSelected();
                         }
