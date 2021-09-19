@@ -231,6 +231,8 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
             Bill bill = billService.getBillById(bills, mission.getBillId());
             missionBill.setText(bill.getNumber());
         }
+        missionDescription.setText(mission.getDescription());
+        missionQuantity.setText(String.valueOf(mission.getQuantity()));
         missionPrice.setText(valueOf(mission.getPrice()));
         if(mission.isBilled()) {
             missionBilled.isSelected();
