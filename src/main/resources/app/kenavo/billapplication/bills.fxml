@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import app.kenavo.billapplication.controllers.NavBarController?>
-<?import javafx.scene.layout.*?>
 <?import app.kenavo.billapplication.controllers.BillsListDetailController?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.BillsController">
+<?import app.kenavo.billapplication.controllers.NavBarController?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
+<AnchorPane styleClass="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.BillsController">
    <children>
        <NavBarController layoutY="0.0" />
-       <BillsListDetailController fx:id="listDetail" layoutY="14.0" />
+       <BillsListDetailController fx:id="listDetail" layoutY="30.0" />
    </children>
+    <stylesheets>
+        <URL value="@css/home.css" />
+    </stylesheets>
 </AnchorPane>

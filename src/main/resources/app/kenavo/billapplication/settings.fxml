@@ -3,10 +3,13 @@
 <?import app.kenavo.billapplication.controllers.NavBarController?>
 <?import app.kenavo.billapplication.controllers.SettingsController?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.SettingsController">
+<?import java.net.URL?>
+<AnchorPane styleClass="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.kenavo.billapplication.controllers.SettingsController">
     <children>
-        <NavBarController layoutY="7.0" />
-        <SettingsController layoutY="14.0" />
+        <NavBarController layoutY="0.0" />
+        <SettingsController layoutY="30.0" />
     </children>
+    <stylesheets>
+        <URL value="@css/home.css" />
+    </stylesheets>
 </AnchorPane>

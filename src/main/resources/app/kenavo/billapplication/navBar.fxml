@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.layout.*?>
-
+<?import java.net.URL?>
 <fx:root type="javafx.scene.layout.AnchorPane" xmlns:fx="http://javafx.com/fxml">
     <children>
-        <AnchorPane xmlns="http://javafx.com/javafx"  xmlns:fx="http://javafx.com/fxml" prefHeight="153.0" prefWidth="900.0">
-
+        <AnchorPane styleClass="navBar" xmlns="http://javafx.com/javafx"  xmlns:fx="http://javafx.com/fxml" prefHeight="153.0" prefWidth="900.0">
             <children>
-                <MenuBar fx:id="myMenuBar" layoutY="7.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="900.0" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <MenuBar styleClass="menuBar" fx:id="myMenuBar" layoutY="0.0" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="36.0" prefWidth="900.0" AnchorPane.bottomAnchor="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
-                        <Menu text="Menus">
+                        <Menu styleClass="menu" text="Menus">
                             <items>
                                 <!--Do not bother with those errors, Intellij do not find the link but it exist -->
-                                <MenuItem mnemonicParsing="false" onAction="#navigateToAccounts" text="Accounts" />
-                                <MenuItem mnemonicParsing="false" onAction="#navigateToBills" text="Bills" />
-                                <MenuItem mnemonicParsing="false" onAction="#navigateToMissions" text="Missions" />
-                                <MenuItem mnemonicParsing="false" onAction="#navigateToSettings" text="Settings" />
-                            </items></Menu>
+                                <MenuItem styleClass="menuItem" mnemonicParsing="false" onAction="#navigateToAccounts" text="Accounts" />
+                                <MenuItem styleClass="menuItem" mnemonicParsing="false" onAction="#navigateToBills" text="Bills" />
+                                <MenuItem styleClass="menuItem" mnemonicParsing="false" onAction="#navigateToMissions" text="Missions" />
+                                <MenuItem styleClass="menuItem" mnemonicParsing="false" onAction="#navigateToSettings" text="Settings" />
+                            </items>
+                        </Menu>
                     </menus>
                     <cursor>
                         <Cursor fx:constant="HAND" />
@@ -28,4 +28,7 @@
 
         </AnchorPane>
     </children>
+    <stylesheets>
+        <URL value="@css/nav-bar.css" />
+    </stylesheets>
 </fx:root>
