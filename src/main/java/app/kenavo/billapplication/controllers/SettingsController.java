@@ -19,7 +19,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
+import static app.kenavo.billapplication.utils.ValidationFields.*;
 
 public class SettingsController extends AnchorPane implements Initializable {
 
@@ -27,12 +32,19 @@ public class SettingsController extends AnchorPane implements Initializable {
     public MenuBar myMenuBar;
 
     @FXML public TextField settingCompanyName;
+    @FXML public Text settingNameError;
     @FXML public TextField settingAddress;
+    @FXML public Text settingAddressError;
     @FXML public TextField settingEmail;
+    @FXML public Text settingEmailError;
     @FXML public TextField settingPhone;
+    @FXML public Text settingPhoneError;
     @FXML public TextField settingLogo;
+    @FXML public Text settingLogoError;
     @FXML public TextField settingSiret;
+    @FXML public Text settingSiretError;
     @FXML public TextField settingDownloadPath;
+    @FXML public Text settingPathError;
     @FXML public Button chooseDownloadPath;
     @FXML public Text textDownloadPath;
     @FXML public Button chooseLogo;
@@ -51,6 +63,8 @@ public class SettingsController extends AnchorPane implements Initializable {
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
 
+    Map<TextField, String> errors = new HashMap<TextField, String>();
+
     String context = "";
 
     public SettingsController() {
@@ -68,7 +82,40 @@ public class SettingsController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(this.context);
+
+        //Validation Form Edit or Create
+        settingCompanyName.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, settingNameError, settingCompanyName);
+            }
+        });
+
+        settingAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, settingAddressError, settingAddress);
+            }
+        });
+
+        settingEmail.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkEmail(errors, settingEmailError, settingEmail);
+            }
+        });
+
+        settingPhone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkPhone(errors, settingPhoneError, settingPhone);
+            }
+        });
+
+        settingSiret.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                Boolean notBlank = checkRequired(errors, settingPhoneError, settingPhone);
+                if(notBlank) {
+                    checkStringSize(errors, settingPhoneError, settingPhone, "Siret", 14);
+                }
+            }
+        });
 
         settingCompanyName.setText(setting.getCompanyName());
         settingAddress.setText(setting.getAddress());
@@ -117,19 +164,35 @@ public class SettingsController extends AnchorPane implements Initializable {
 
     public void onCancel() {
         displayReadOnlyScreen();
+        errors = new HashMap<TextField, String>();
     }
 
     public void onSave() {
-        Setting setting = new Setting();
-        setting.setCompanyName(settingCompanyName.getText());
-        setting.setAddress(settingAddress.getText());
-        setting.setEmail(settingEmail.getText());
-        setting.setPhone(settingPhone.getText());
-        setting.setLogo(textLogo.getText());
-        setting.setSiret(settingSiret.getText());
-        setting.setDownloadPath(textDownloadPath.getText());
-        settingService.setSetting(setting);
-        displayReadOnlyScreen();
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(settingCompanyName, settingNameError);
+        fields.put(settingAddress, settingAddressError);
+        fields.put(settingEmail, settingEmailError);
+        fields.put(settingPhone, settingPhoneError);
+        fields.put(settingDownloadPath, settingPathError);
+        fields.put(settingLogo, settingLogoError);
+        fields.put(settingSiret, settingSiretError);
+        checkRequiredFields(errors, fields);
+
+        if(errors.size() == 0) {
+            Setting setting = new Setting();
+            setting.setCompanyName(settingCompanyName.getText());
+            setting.setAddress(settingAddress.getText());
+            setting.setEmail(settingEmail.getText());
+            setting.setPhone(settingPhone.getText());
+            setting.setLogo(textLogo.getText());
+            setting.setSiret(settingSiret.getText());
+            setting.setDownloadPath(textDownloadPath.getText());
+            settingService.setSetting(setting);
+            displayReadOnlyScreen();
+        } else {
+            alertOnErrorSave("Setting", errors);
+        }
+
     }
 
     private void displayEditableScreen() {

@@ -16,15 +16,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
+import static app.kenavo.billapplication.utils.ValidationFields.*;
 import static java.lang.String.valueOf;
 
 public class AccountsListDetailController extends AnchorPane implements Initializable {
@@ -32,12 +35,16 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @FXML public ListView<Account> listViewAccounts;
     @FXML public ListView<Bill> listViewBills;
     @FXML public Text accountTitle;
-    @FXML public GridPane gridPaneAccount;
     @FXML public TextField accountTitleField;
+    @FXML public Text accountTitleError;
     @FXML public TextField accountAddress;
+    @FXML public Text accountAddressError;
     @FXML public TextField accountContact;
+    @FXML public Text accountContactError;
     @FXML public TextField accountEmail;
+    @FXML public Text accountEmailError;
     @FXML public TextField accountPhone;
+    @FXML public Text accountPhoneError;
     @FXML public TextField accountCA;
     @FXML public Label billsLabel;
 
@@ -47,6 +54,9 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @FXML public Button accountSave;
     @FXML public Button accountCancel;
 
+
+
+    Map<TextField, String> errors = new HashMap<TextField, String>();
 
     Navigation navigation = new Navigation();
     BillService billService = new BillServiceImpl();
@@ -73,6 +83,43 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //Validation Form Edit or Create
+        accountTitleField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, accountTitleError, accountTitleField);
+            }
+        });
+
+        accountContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkRequired(errors, accountContactError, accountContact);
+            }
+        });
+
+        accountAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            Boolean notBlank;
+            if (!newValue) { // when focus lost
+                notBlank = checkRequired(errors, accountAddressError, accountAddress);
+                System.out.println(notBlank);
+                if (notBlank) {
+                    checkAddress(errors, accountAddressError, accountAddress);
+                }
+            }
+        });
+
+        accountEmail.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            System.out.println("lost focus Email");
+            if (!newValue) { // when focus lost
+                checkEmail(errors, accountEmailError, accountEmail);
+            }
+        });
+
+        accountPhone.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+            if (!newValue) { // when focus lost
+                checkPhone(errors, accountPhoneError, accountPhone);
+            }
+        });
 
         List<Account> accounts = accountService.getAllAccounts();
         List<Bill> bills = billService.getAllBills();
@@ -228,22 +275,32 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         }
         displayReadOnlyScreen(this.cachedAccount);
         this.context = "";
+        errors = new HashMap<TextField, String>();
     }
 
     public void onSave(List<Account> accounts, Account account) throws IOException {
-        account.setName(accountTitleField.getText());
-        account.setAddress(accountAddress.getText());
-        account.setContact(accountContact.getText());
-        account.setEmail(accountEmail.getText());
-        account.setPhone(accountPhone.getText());
-        account.setCa(accountCA.getText());
+        Map<TextField, Text> fields = new HashMap<TextField, Text>();
+        fields.put(accountTitleField, accountTitleError);
+        fields.put(accountAddress, accountAddressError);
+        checkRequiredFields(errors, fields);
 
-        if(this.context.equals("create")) {
-            accountService.create(account);
-        } else if(this.context.equals("edit")) {
-            accountService.update(accounts, account);
+        if(errors.size() == 0) {
+            account.setName(accountTitleField.getText());
+            account.setAddress(accountAddress.getText());
+            account.setContact(accountContact.getText());
+            account.setEmail(accountEmail.getText());
+            account.setPhone(accountPhone.getText());
+            account.setCa(accountCA.getText());
+
+            if(this.context.equals("create")) {
+                accountService.create(account);
+            } else if(this.context.equals("edit")) {
+                accountService.update(accounts, account);
+            }
+            displayReadOnlyScreen(account);
+        } else {
+            alertOnErrorSave("Account", errors);
         }
-        displayReadOnlyScreen(account);
     }
 
     public void onDelete(List<Account> accounts) {
