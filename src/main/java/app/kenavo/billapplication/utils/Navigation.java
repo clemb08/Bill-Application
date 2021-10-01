@@ -31,11 +31,6 @@ public class Navigation {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/kenavo/billapplication/settings.fxml"));
         Parent listProjects = loader.load();
         SettingsController controller = loader.getController();
-        if(setting != null) {
-            controller.setContextSetting("view");
-        } else {
-            controller.setContextSetting("create");
-        }
         Stage primaryStage = (Stage) root.getScene().getWindow();
         primaryStage.setScene(new Scene(listProjects));
         System.out.println(listProjects);

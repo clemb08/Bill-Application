@@ -118,25 +118,29 @@ public class SettingsController extends AnchorPane implements Initializable {
 
         settingSiret.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                Boolean notBlank = checkRequired(errors, settingPhoneError, settingPhone);
+                Boolean notBlank = checkRequired(errors, settingSiretError, settingSiret);
                 if(notBlank) {
-                    checkStringSize(errors, settingPhoneError, settingPhone, "Siret", 14);
+                    checkStringSize(errors, settingSiretError, settingSiret, "Siret", 14);
                 }
             }
         });
 
-        settingCompanyName.setText(setting.getCompanyName());
-        settingAddress.setText(setting.getAddress());
-        settingEmail.setText(setting.getEmail());
-        settingPhone.setText(setting.getPhone());
-        settingLogo.setText(setting.getLogo());
-        settingSiret.setText(setting.getSiret());
-        settingDownloadPath.setText(setting.getDownloadPath());
+        if(setting != null) {
+            settingCompanyName.setText(setting.getCompanyName());
+            settingAddress.setText(setting.getAddress());
+            settingEmail.setText(setting.getEmail());
+            settingPhone.setText(setting.getPhone());
+            settingLogo.setText(setting.getLogo());
+            settingSiret.setText(setting.getSiret());
+            settingDownloadPath.setText(setting.getDownloadPath());
+        } else {
+            displayEditableScreen();
+        }
 
         settingSave.setOnAction(event -> {
             onSave();
 
-            if(this.context.equals("create")) {
+            if(setting == null) {
                 try {
                     navigation.navigateToHome(null, myMenuBar);
                 } catch (IOException e) {
@@ -238,28 +242,4 @@ public class SettingsController extends AnchorPane implements Initializable {
         settingCancel.setVisible(false);
     }
 
-    public void setContextSetting(String context) {
-        this.context = context;
-        if(this.context.equals("create")) {
-            displayEditableScreen();
-            settingCancel.setVisible(false);
-            settingEdit.setVisible(false);
-            settingSave.setVisible(true);
-            messageCreate.setVisible(true);
-        } else if(this.context.equals("view")) {
-            Setting setting = settingService.getSetting();
-            messageCreate.setVisible(false);
-            settingCancel.setOnAction(event -> onCancel());
-            settingSave.setOnAction(event -> onSave());
-            settingEdit.setOnAction(event -> onEdit());
-
-            settingCompanyName.setText(setting.getCompanyName());
-            settingAddress.setText(setting.getAddress());
-            settingEmail.setText(setting.getEmail());
-            settingPhone.setText(setting.getPhone());
-            settingLogo.setText(setting.getLogo());
-            settingSiret.setText(setting.getSiret());
-            settingDownloadPath.setText(setting.getDownloadPath());
-        }
-    }
 }

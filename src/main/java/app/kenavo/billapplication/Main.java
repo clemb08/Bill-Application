@@ -1,6 +1,5 @@
 package app.kenavo.billapplication;
 
-import app.kenavo.billapplication.controllers.SettingsController;
 import app.kenavo.billapplication.model.Account;
 import app.kenavo.billapplication.model.Setting;
 import app.kenavo.billapplication.services.AccountService;
@@ -32,8 +31,6 @@ public class Main extends Application {
         if(setting == null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
             listProjects = loader.load();
-            SettingsController controller = loader.getController();
-            controller.setContextSetting("create");
             //If the settings exist get the User to the Welcome page
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
