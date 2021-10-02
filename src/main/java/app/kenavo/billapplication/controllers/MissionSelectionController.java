@@ -32,6 +32,7 @@ public class MissionSelectionController implements Initializable {
     private Bill bill;
 
     MissionService missionService = new MissionsServiceImpl();
+    TableView tableView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,10 +47,15 @@ public class MissionSelectionController implements Initializable {
         select.setOnAction(event -> {
             List<Mission> allMissions = missionService.getAllMissions();
             List<Mission> missions = tableMissions.getSelectionModel().getSelectedItems();
+            System.out.println(missions);
             missions.forEach(mission -> {
+                System.out.println(mission.getNumber());
                 mission.setBillId(this.bill.getId());
-                missionService.update(allMissions, mission);
             });
+            missionService.update(allMissions, missions);
+            tableView.getItems().addAll(missions);
+            Stage stage = (Stage) select.getScene().getWindow();
+            stage.close();
         });
     }
 
@@ -64,5 +70,9 @@ public class MissionSelectionController implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<>("Price"));
 
         tableMissions.setItems(data);
+    }
+
+    public void setTable(TableView table) {
+        tableView = table;
     }
 }

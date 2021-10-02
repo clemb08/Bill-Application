@@ -105,7 +105,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-accounts.csv
-bills.csv
-missions.csv
-settings.csv
+BillApplication_data/accounts.csv
+BillApplication_data/bills.csv
+BillApplication_data/missions.csv
+BillApplication_data/settings.csv

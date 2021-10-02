@@ -71,7 +71,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
-    Map<TextField, String> errors = new HashMap<TextField, String>();
+    Map<Object, String> errors = new HashMap<Object, String>();
     List<Text> errorFields = new ArrayList<Text>();
 
     Mission cachedMission = null;
@@ -104,19 +104,19 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
         //Validation Form Edit or Create
         missionType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, missionTypeError, missionType);
+                checkRequiredText(errors, missionTypeError, missionType);
             }
         });
 
         missionDescription.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, missionDescriptionError, missionDescription);
+                checkRequiredText(errors, missionDescriptionError, missionDescription);
             }
         });
 
         missionPrice.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                Boolean notBlank = checkRequired(errors, missionPriceError, missionPrice);
+                Boolean notBlank = checkRequiredText(errors, missionPriceError, missionPrice);
                 if(notBlank) {
                     checkNumber(errors, missionPriceError, missionPrice);
                     if(!errors.containsKey(missionPrice)) {
@@ -128,7 +128,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
         missionQuantity.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, missionQuantityError, missionQuantity);
+                checkRequiredText(errors, missionQuantityError, missionQuantity);
             }
         });
 
@@ -260,13 +260,14 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
 
         displayReadOnlyScreen(this.cachedMission);
         this.context = "";
-        errors = new HashMap<TextField, String>();
+        errors = new HashMap<Object, String>();
         errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave(List<Mission> missions, Mission mission) throws IOException, ParseException {
         Map<TextField, Text> fields = new HashMap<TextField, Text>();
-        fields.put(missionAccount, missionAccountError);
+        //fields.put(missionAccount, missionAccountError);
+        checkRequiredPicklist(errors, missionAccountError, picklistAccounts);
         fields.put(missionPrice, missionPriceError);
         fields.put(missionQuantity, missionQuantityError);
         fields.put(missionType, missionTypeError);
@@ -274,6 +275,7 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
         checkRequiredFields(errors, fields);
 
         if(errors.size() == 0) {
+            missions = missionService.getAllMissions();
             if(this.context == "create") {
                 final int[] highestNumber = {0};
                 missions.forEach(currentMission -> {
@@ -298,16 +300,19 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
                 mission.setBillId("None");
             }
             mission.setType(missionType.getText());
+            mission.setDescription(missionDescription.getText());
+            mission.setQuantity(Integer.parseInt(missionQuantity.getText()));
             mission.setPrice(Float.parseFloat(missionPrice.getText()));
             mission.setDate(datePicker.getValue().toString());
             mission.setBilled(missionBilled.isSelected());
 
             Account account = accountService.getAccountById(accounts, mission.getAccountId());
-
+            List<Mission> missionsToUpdate = new ArrayList<>();
+            missionsToUpdate.add(mission);
             if(this.context.equals("create")) {
                 missionService.create(mission);
             } else if(this.context.equals("edit")) {
-                missionService.update(missions, mission);
+                missionService.update(missions, missionsToUpdate);
             }
 
             Account updatedAccount = accountService.getCAAccount(account, missions);

@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class MissionsServiceImpl implements MissionService {
-    private static final String MISSION_FILE = "./missions.csv";
+    private static final String MISSION_FILE = "./BillApplication_data/missions.csv";
 
     public Mission createMission(CSVRecord record) throws ParseException {
         Mission mission = new Mission();
@@ -117,20 +117,24 @@ public class MissionsServiceImpl implements MissionService {
     }
 
     @Override
-    public void update(List<Mission> missions, Mission mission) {
+    public void update(List<Mission> missions, List<Mission> missionsToUpdate) {
 
-        String updatedId = mission.getId();
+        List<String> updatedIds = new ArrayList<>();
+
+        missionsToUpdate.forEach(mission -> updatedIds.add(mission.getId()));
 
         List<Mission> missionsToKeep = missions.stream()
-                .filter(miss -> !miss.getId().equals(updatedId))
+                .filter(miss -> !updatedIds.contains(miss.getId()))
                 .collect(Collectors.toList());
 
-        if(mission.getBillId().equals("None")) {
-            mission.setBilled(false);
-        } else {
-            mission.setBilled(true);
-        }
-        missionsToKeep.add(mission);
+        missionsToUpdate.forEach(mission -> {
+            if(mission.getBillId().equals("None")) {
+                mission.setBilled(false);
+            } else {
+                mission.setBilled(true);
+            }
+            missionsToKeep.add(mission);
+        });
 
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(MISSION_FILE));

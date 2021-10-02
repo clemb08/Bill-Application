@@ -18,6 +18,8 @@ public class Account {
 
     public String phone;
 
+    public String siren;
+
     public float ca;
 
     public String getId() {
@@ -66,6 +68,14 @@ public class Account {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSiren() {
+        return siren;
+    }
+
+    public void setSiren(String siren) {
+        this.siren = siren;
     }
 
     public float getCa() {

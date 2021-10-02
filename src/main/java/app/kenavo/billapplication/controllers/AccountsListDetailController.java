@@ -43,6 +43,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
     @FXML public TextField accountPhone;
     @FXML public Text accountPhoneError;
     @FXML public TextField accountCA;
+    @FXML public TextField accountSirenField;
     @FXML public Label billsLabel;
 
     @FXML public Button createAccount;
@@ -53,7 +54,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
 
 
 
-    Map<TextField, String> errors = new HashMap<TextField, String>();
+    Map<Object, String> errors = new HashMap<Object, String>();
     List<Text> errorFields = new ArrayList<Text>();
 
     Navigation navigation = new Navigation();
@@ -92,24 +93,24 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         //Validation Form Edit or Create
         accountTitleField.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, accountTitleError, accountTitleField);
+                checkRequiredText(errors, accountTitleError, accountTitleField);
             }
         });
 
-        accountContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
+/*        accountContact.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, accountContactError, accountContact);
+                checkRequiredText(errors, accountContactError, accountContact);
             }
-        });
+        });*/
 
         accountAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             Boolean notBlank;
             if (!newValue) { // when focus lost
-                notBlank = checkRequired(errors, accountAddressError, accountAddress);
+                notBlank = checkRequiredText(errors, accountAddressError, accountAddress);
                 System.out.println(notBlank);
-                if (notBlank) {
+/*                if (notBlank) {
                     checkAddress(errors, accountAddressError, accountAddress);
-                }
+                }*/
             }
         });
 
@@ -226,6 +227,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         accountContact.setText(account.getContact());
         accountEmail.setText(account.getContact());
         accountPhone.setText(account.getPhone());
+        accountSirenField.setText(account.getSiren());
         accountCA.setText(valueOf(account.getCa()));
         return account;
     }
@@ -237,6 +239,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         accountContact.setText(null);
         accountEmail.setText(null);
         accountPhone.setText(null);
+        accountSirenField.setText(null);
         accountCA.setText(null);
     }
 
@@ -281,23 +284,27 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
             displayBillsAccountSelected(bills, this.cachedAccount);
         }
         displayReadOnlyScreen(this.cachedAccount);
-        this.context = "";
-        errors = new HashMap<TextField, String>();
+        errors = new HashMap<Object, String>();
         errorFields.forEach(field -> field.setVisible(false));
+        System.out.println(errorFields);
+        this.context = "";
     }
 
     public void onSave(List<Account> accounts, Account account) throws IOException {
         Map<TextField, Text> fields = new HashMap<TextField, Text>();
         fields.put(accountTitleField, accountTitleError);
         fields.put(accountAddress, accountAddressError);
+        System.out.println(errors);
         checkRequiredFields(errors, fields);
 
+        System.out.println(errors);
         if(errors.size() == 0) {
             account.setName(accountTitleField.getText());
             account.setAddress(accountAddress.getText());
             account.setContact(accountContact.getText());
             account.setEmail(accountEmail.getText());
             account.setPhone(accountPhone.getText());
+            account.setSiren(accountSirenField.getText());
             account.setCa(accountCA.getText());
 
             if(this.context.equals("create")) {
@@ -323,6 +330,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         accountContact.setEditable(true);
         accountPhone.setEditable(true);
         accountEmail.setEditable(true);
+        accountSirenField.setEditable(true);
 
         listViewAccounts.setVisible(false);
         listViewBills.setVisible(false);
@@ -342,6 +350,7 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         accountContact.setEditable(false);
         accountPhone.setEditable(false);
         accountEmail.setEditable(false);
+        accountSirenField.setEditable(true);
 
         listViewAccounts.setVisible(true);
         listViewBills.setVisible(true);
@@ -351,8 +360,10 @@ public class AccountsListDetailController extends AnchorPane implements Initiali
         accountSave.setVisible(false);
         accountCancel.setVisible(false);
 
-        accountTitle.setText(account.getName());
-        listViewAccounts.getSelectionModel().select(account);
+        if(this.context == "edit") {
+            accountTitle.setText(account.getName());
+            listViewAccounts.getSelectionModel().select(account);
+        }
     }
 
     public void setAccount(List<Account> accounts, String accountId) {

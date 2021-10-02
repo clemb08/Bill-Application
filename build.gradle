@@ -97,7 +97,6 @@ jlink {
         }
     }
 }
-
 jpackage {
     doFirst {
         project.getProperty('installerType') // throws exception if its missing

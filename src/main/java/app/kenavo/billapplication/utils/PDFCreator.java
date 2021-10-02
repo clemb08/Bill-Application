@@ -47,7 +47,7 @@ public class PDFCreator {
     }
 
     public void generatePDF(Bill bill, List<Mission> missions) throws IOException {
-        String dest = "./" + bill.getNumber() +"_V" + bill.getVersionPDF() + ".pdf";
+        String dest = setting.getDownloadPath() + "/" + bill.getNumber() +"_V" + bill.getVersionPDF() + ".pdf";
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
         Document doc = new Document(pdfDoc);
 

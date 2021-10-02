@@ -61,7 +61,7 @@ public class SettingsController extends AnchorPane implements Initializable {
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
 
-    Map<TextField, String> errors = new HashMap<TextField, String>();
+    Map<Object, String> errors = new HashMap<Object, String>();
     List<Text> errorFields = new ArrayList<Text>();
 
     String context = "";
@@ -94,13 +94,13 @@ public class SettingsController extends AnchorPane implements Initializable {
         //Validation Form Edit or Create
         settingCompanyName.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, settingNameError, settingCompanyName);
+                checkRequiredText(errors, settingNameError, settingCompanyName);
             }
         });
 
         settingAddress.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, settingAddressError, settingAddress);
+                checkRequiredText(errors, settingAddressError, settingAddress);
             }
         });
 
@@ -118,7 +118,7 @@ public class SettingsController extends AnchorPane implements Initializable {
 
         settingSiret.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                Boolean notBlank = checkRequired(errors, settingSiretError, settingSiret);
+                Boolean notBlank = checkRequiredText(errors, settingSiretError, settingSiret);
                 if(notBlank) {
                     checkStringSize(errors, settingSiretError, settingSiret, "Siret", 14);
                 }
@@ -176,7 +176,7 @@ public class SettingsController extends AnchorPane implements Initializable {
 
     public void onCancel() {
         displayReadOnlyScreen();
-        errors = new HashMap<TextField, String>();
+        errors = new HashMap<Object, String>();
         errorFields.forEach(field -> field.setVisible(false));
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddColumn {
@@ -28,8 +29,11 @@ public class AddColumn {
                     {
                         btn.setOnAction(event -> {
                             Mission mission = table.getItems().get(getIndex());
+                            List<Mission> missionsToUpdate = new ArrayList<>();
+                            missionsToUpdate.add(mission);
                             mission.setBillId("None");
-                            missionService.update(missions, mission);
+                            missionService.update(missions, missionsToUpdate);
+                            table.getItems().remove(getIndex());
                         });
                     }
 

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import static java.lang.Float.parseFloat;
 
 public class BillServiceImpl implements BillService {
-    private static final String BILL_FILE = "./bills.csv";
+    private static final String BILL_FILE = "./BillApplication_data/bills.csv";
 
     public Bill createBill(CSVRecord record) throws ParseException {
         Bill bill = new Bill();

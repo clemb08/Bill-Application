@@ -1,6 +1,5 @@
 package app.kenavo.billapplication.services;
 
-import app.kenavo.billapplication.model.Bill;
 import app.kenavo.billapplication.model.Mission;
 
 import java.util.List;
@@ -17,8 +16,7 @@ public interface MissionService {
 
     public Mission create(Mission mission);
 
-    public void update(List<Mission> missions, Mission mission);
-
     public void delete(List<Mission> missions, Mission mission);
 
+    public void update(List<Mission> missions, List<Mission> missionsToUpdate);
 }

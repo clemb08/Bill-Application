@@ -1,7 +1,6 @@
 package app.kenavo.billapplication.services;
 
 import app.kenavo.billapplication.model.Account;
-import app.kenavo.billapplication.model.Bill;
 import app.kenavo.billapplication.model.Mission;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -16,12 +15,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class AccountServiceImpl implements AccountService {
-    private static final String ACCOUNT_FILE = "./accounts.csv";
+
+    private static final String ACCOUNT_FILE = "./BillApplication_data/accounts.csv";
 
     private Account createAccount(CSVRecord record) {
         Account account = new Account();
@@ -31,13 +30,14 @@ public class AccountServiceImpl implements AccountService {
         account.setContact(record.get("Contact"));
         account.setEmail(record.get("Email"));
         account.setPhone(record.get("Phone"));
+        account.setSiren(record.get("Siren"));
         account.setCa(record.get("CA"));
 
         return account;
     }
 
     private void writeAccount(CSVPrinter csvPrinter, Account account) throws IOException {
-        csvPrinter.printRecord(account.getId(), account.getName(), account.getAddress(), account.getContact(), account.getEmail(), account.getPhone(), account.getCa());
+        csvPrinter.printRecord(account.getId(), account.getName(), account.getAddress(), account.getContact(), account.getEmail(), account.getPhone(), account.getSiren(), account.getCa());
     }
 
     public Account getCAAccount(Account account, List<Mission> missions) {
@@ -122,7 +122,7 @@ public class AccountServiceImpl implements AccountService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(ACCOUNT_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("ID", "Name", "Address", "Contact", "Email", "Phone", "CA"));) {
+                    .withHeader("ID", "Name", "Address", "Contact", "Email", "Phone", "Siren", "CA"));) {
 
             for(Account accountToSave : accountsToKeep) {
                 writeAccount(csvPrinter, accountToSave);
@@ -144,7 +144,7 @@ public class AccountServiceImpl implements AccountService {
         try(
                 BufferedWriter writer = Files.newBufferedWriter(Paths.get(ACCOUNT_FILE));
                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                        .withHeader("ID", "Name", "Address", "Contact", "Email", "Phone", "CA"));) {
+                        .withHeader("ID", "Name", "Address", "Contact", "Email", "Phone", "Siren", "CA"));) {
 
             for(Account accountToSave : accountsToKeep) {
                 writeAccount(csvPrinter, accountToSave);

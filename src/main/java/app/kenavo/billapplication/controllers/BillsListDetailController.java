@@ -34,8 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static app.kenavo.billapplication.utils.AlertNotifications.alertOnErrorSave;
-import static app.kenavo.billapplication.utils.ValidationFields.checkRequired;
-import static app.kenavo.billapplication.utils.ValidationFields.checkRequiredFields;
+import static app.kenavo.billapplication.utils.ValidationFields.*;
 import static java.lang.String.valueOf;
 
 public class BillsListDetailController extends AnchorPane implements Initializable {
@@ -79,7 +78,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
     SettingService settingService = new SettingServiceImpl();
     Setting setting = settingService.getSetting();
 
-    Map<TextField, String> errors = new HashMap<TextField, String>();
+    Map<Object, String> errors = new HashMap<Object, String>();
     List<Text> errorFields = new ArrayList<Text>();
     PDFCreator pdfCreator = new PDFCreator();
 
@@ -110,7 +109,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         //Validation Form Edit or Create
         billType.focusedProperty().addListener((arg0, oldValue, newValue) -> {
             if (!newValue) { // when focus lost
-                checkRequired(errors, billTypeError, billType);
+                checkRequiredText(errors, billTypeError, billType);
             }
         });
 
@@ -276,18 +275,20 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         System.out.println(this.cachedBill);
         displayReadOnlyScreen(this.cachedBill);
         this.context = "";
-        errors = new HashMap<TextField, String>();
+        errors = new HashMap<Object, String>();
         errorFields.forEach(field -> field.setVisible(false));
     }
 
     public void onSave(List<Bill> bills, Bill bill) throws IOException, ParseException {
         Map<TextField, Text> fields = new HashMap<TextField, Text>();
-        fields.put(billAccount, billAccountError);
+        //fields.put(billAccount, billAccountError);
         fields.put(billType, billTypeError);
         checkRequiredFields(errors, fields);
+        checkRequiredPicklist(errors, billAccountError, picklistAccounts);
 
         if(errors.size() == 0) {
             if(this.context == "create") {
+                bills = billService.getAllBills();
                 final int[] highestNumber = {0};
                 bills.forEach(currentBill -> {
                     String[] numberString = currentBill.getNumber().split("-");
@@ -344,6 +345,7 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         MissionSelectionController controller = loader.getController();
         controller.setMissions(listMissions);
         controller.setBill(listViewBills.getSelectionModel().getSelectedItem());
+        controller.setTable(tableMissions);
         newWindow.setScene(new Scene(listProjects));
         newWindow.show();
     }

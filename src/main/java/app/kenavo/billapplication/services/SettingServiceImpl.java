@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class SettingServiceImpl implements SettingService {
 
-    private static final String SETTING_FILE = "./settings.csv";
+    private static final String SETTING_FILE = "./BillApplication_data/settings.csv";
 
     private Setting createSetting(CSVRecord record) {
         Setting setting = new Setting();

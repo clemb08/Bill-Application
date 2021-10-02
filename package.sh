@@ -1,5 +1,7 @@
 #!/bin/sh
 
+HOME=printenv HOME
+
 ./gradlew clean
 ./gradlew jlink
 
@@ -11,7 +13,7 @@ fi
 if [ ! -d "/opt/BillApplication/files" ]; then
   sudo mkdir /opt/BillApplication/files
   sudo touch /opt/BillApplication/files/accounts.csv
-  echo "ID,Name,Address,Contact,Email,Phone,CA" | sudo tee /opt/BillApplication/files/accounts.csv
+  echo "ID,Name,Address,Contact,Email,Phone,Siren,CA" | sudo tee /opt/BillApplication/files/accounts.csv
   sudo touch /opt/BillApplication/files/bills.csv
   sudo echo "ID,Number,AccountID,Type,Date,Amount,Credited,VersionPDF" | sudo tee /opt/BillApplication/files/bills.csv
   sudo touch /opt/BillApplication/files/missions.csv
@@ -20,28 +22,31 @@ if [ ! -d "/opt/BillApplication/files" ]; then
   sudo echo "ID,CompanyName,Address,Email,Phone,Logo,Siret,DownloadPath" | sudo tee /opt/BillApplication/files/settings.csv
 fi
 
-if [ -d "/opt/BillApplication/build" ]; then
-  sudo cp /opt/BillApplication/build/image/bin/accounts.csv /opt/BillApplication/files
-  sudo cp /opt/BillApplication/build/image/bin/bills.csv /opt/BillApplication/files
-  sudo cp /opt/BillApplication/build/image/bin/missions.csv /opt/BillApplication/files
-  sudo cp /opt/BillApplication/build/image/bin/settings.csv /opt/BillApplication/files
-  sudo cp -r ./build ./
-  sudo cp /opt/BillApplication/files/accounts.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/bills.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/missions.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/settings.csv /opt/BillApplication/build/image/bin/
+if [ -d "$HOME/BillApplication_data/" ]; then
+  sudo cp "$HOME/BillApplication_data/accounts.csv" /opt/BillApplication/files
+  sudo cp "$HOME/BillApplication_data/bills.csv" /opt/BillApplication/files
+  sudo cp "$HOME/BillApplication_data/missions.csv" /opt/BillApplication/files
+  sudo cp "$HOME/BillApplication_data/settings.csv" /opt/BillApplication/files
+  sudo cp -r ./build /opt/BillApplication/
+  sudo cp /opt/BillApplication/files/accounts.csv "$HOME/BillApplication_data/accounts.csv"
+  sudo cp /opt/BillApplication/files/bills.csv "$HOME/BillApplication_data/bills.csv"
+  sudo cp /opt/BillApplication/files/missions.csv "$HOME/BillApplication_data/missions.csv"
+  sudo cp /opt/BillApplication/files/settings.csv "$HOME/BillApplication_data/settings.csv"
 
 else
+  mkdir "$HOME/BillApplication_data/"
   sudo cp -r ./build /opt/BillApplication
-  sudo cp /opt/BillApplication/files/accounts.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/bills.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/missions.csv /opt/BillApplication/build/image/bin/
-  sudo cp /opt/BillApplication/files/settings.csv /opt/BillApplication/build/image/bin/
+  sudo cp /opt/BillApplication/files/accounts.csv "$HOME/BillApplication_data/accounts.csv"
+  sudo cp /opt/BillApplication/files/bills.csv "$HOME/BillApplication_data/bills.csv"
+  sudo cp /opt/BillApplication/files/missions.csv "$HOME/BillApplication_data/missions.csv"
+  sudo cp /opt/BillApplication/files/settings.csv "$HOME/BillApplication_data/settings.csv"
 fi
 
-sudo touch ~/Desktop/startBillApplication.sh
-sudo echo "sudo /opt/BillApplication/build/image/bin/BillApplication" | sudo tee ~/Desktop/startBillApplication.sh
-sudo sudo chmod 1777 ~/Desktop/startBillApplication.sh
-
-
-
+sudo chmod 1777 "$HOME/BillApplication_data/accounts.csv"
+sudo chmod 1777 "$HOME/BillApplication_data/bills.csv"
+sudo chmod 1777 "$HOME/BillApplication_data/missions.csv"
+sudo chmod 1777 "$HOME/BillApplication_data/settings.csv"
+sudo chown clem8 "$HOME/BillApplication_data/accounts.csv"
+sudo chown clem8 "$HOME/BillApplication_data/bills.csv"
+sudo chown clem8 "$HOME/BillApplication_data/missions.csv"
+sudo chown clem8 "$HOME/BillApplication_data/settings.csv"

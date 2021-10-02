@@ -1,5 +1,6 @@
 package app.kenavo.billapplication.utils;
 
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -26,13 +27,13 @@ public class ValidationFields {
     public static final String NUMBER_TO_HIGH = "Please, provide a lower number than ";
     public static final String BAD_SIZE_STRING = " length should be ";
 
-    public static boolean checkRequired(Map<TextField, String> map, Text text, TextField textField) {
+    public static boolean checkRequiredText(Map<Object, String> map, Text text, TextField textField) {
         if(textField.getText() == null) {
             map.put(textField, REQUIRED_FIELD);
             text.setText(REQUIRED_FIELD);
             text.setVisible(true);
             return false;
-        } else if(map.containsKey(textField)) {
+        } else if(map.containsKey(textField) && map.get(textField) == REQUIRED_FIELD) {
             map.remove(textField, REQUIRED_FIELD);
             text.setVisible(false);
             return true;
@@ -41,10 +42,27 @@ public class ValidationFields {
         }
     }
 
-    public static void checkAddress(Map<TextField, String> map, Text text, TextField textField) {
+    public static boolean checkRequiredPicklist(Map<Object, String> map, Text text, ChoiceBox picklist) {
+        if(picklist.getValue() == null) {
+            map.put(picklist, REQUIRED_FIELD);
+            text.setText(REQUIRED_FIELD);
+            text.setVisible(true);
+            return false;
+        } else if(map.containsKey(picklist) && map.get(picklist) == REQUIRED_FIELD) {
+            map.remove(picklist, REQUIRED_FIELD);
+            text.setVisible(false);
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    public static void checkAddress(Map<Object, String> map, Text text, TextField textField) {
+        System.out.println(textField.getText());
         if(textField.getText() != null) {
             Matcher matcher = VALID_ADDRESS.matcher(textField.getText());
             if (!matcher.matches()) {
+                System.out.println("do not match");
                 if(!map.containsKey(textField)) {
                     map.put(textField, BAD_ADDRESS);
                     text.setText(BAD_ADDRESS);
@@ -52,12 +70,13 @@ public class ValidationFields {
                 }
             } else if(map.containsKey(textField)) {
                 map.remove(textField, BAD_ADDRESS);
+                System.out.println(map);
                 text.setVisible(false);
             }
         }
     }
 
-    public static void checkEmail(Map<TextField, String> map, Text text, TextField textField) {
+    public static void checkEmail(Map<Object, String> map, Text text, TextField textField) {
         System.out.println(textField.getText());
         if(textField.getText() != null) {
             Matcher matcher = VALID_EMAIL_ADDRESS.matcher(textField.getText());
@@ -67,12 +86,13 @@ public class ValidationFields {
                 text.setVisible(true);
             } else if(map.containsKey(textField)) {
                 map.remove(textField, BAD_EMAIL);
+                System.out.println(map);
                 text.setVisible(false);
             }
         }
     }
 
-    public static void checkPhone(Map<TextField, String> map, Text text, TextField textField) {
+    public static void checkPhone(Map<Object, String> map, Text text, TextField textField) {
         if(textField.getText() != null) {
             Matcher matcher = VALID_PHONE_NUMBER.matcher(textField.getText());
             if (!matcher.matches()) {
@@ -86,7 +106,7 @@ public class ValidationFields {
         }
     }
 
-    public static void checkNumber(Map<TextField, String> map, Text text, TextField textField) {
+    public static void checkNumber(Map<Object, String> map, Text text, TextField textField) {
         if(textField.getText() != null) {
             Matcher matcher = VALID_NUMBER.matcher(textField.getText());
             if (!matcher.matches()) {
@@ -100,7 +120,7 @@ public class ValidationFields {
         }
     }
 
-    public static void checkRangeNumber(Map<TextField, String> map, Text text, TextField textField, Integer minimum, Integer maximum) {
+    public static void checkRangeNumber(Map<Object, String> map, Text text, TextField textField, Integer minimum, Integer maximum) {
         if(textField.getText() != null) {
             int number = Integer.parseInt(textField.getText());
             if(minimum != null) {
@@ -127,7 +147,7 @@ public class ValidationFields {
         }
     }
 
-    public static void checkStringSize(Map<TextField, String> map, Text text, TextField textField, String field, Integer size) {
+    public static void checkStringSize(Map<Object, String> map, Text text, TextField textField, String field, Integer size) {
         if(textField.getText() != null) {
             int stringSize = textField.getText().length();
             if(stringSize != size) {
@@ -141,9 +161,9 @@ public class ValidationFields {
         }
     }
 
-    public static void checkRequiredFields(Map<TextField, String> map, Map<TextField, Text> fields) {
+    public static void checkRequiredFields(Map<Object, String> map, Map<TextField, Text> fields) {
         for (Map.Entry<TextField, Text> entry : fields.entrySet()) {
-            checkRequired(map, entry.getValue(), entry.getKey());
+            checkRequiredText(map, entry.getValue(), entry.getKey());
         };
     }
 }
