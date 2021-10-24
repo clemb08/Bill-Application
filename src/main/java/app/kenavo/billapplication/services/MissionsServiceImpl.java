@@ -155,7 +155,7 @@ public class MissionsServiceImpl implements MissionService {
         String updatedId = mission.getId();
 
         List<Mission> missionsToKeep = missions.stream()
-                .filter(miss -> miss.getId().equals(updatedId))
+                .filter(miss -> !miss.getId().equals(updatedId))
                 .collect(Collectors.toList());
 
         try(

@@ -57,8 +57,14 @@ public class PDFCreator {
         String title = "FACTURE " + bill.getNumber();
         addTitle(doc, title);
 
-        addTable(doc, missions);
+        Paragraph date = new Paragraph("date de Facturation: " + bill.getDate())
+                .setTextAlignment(TextAlignment.LEFT).setFont(helveticaFont).setFontSize(12)
+                .setMarginBottom(10)
+                .setMarginLeft(10)
+                .setMarginTop(10);
+        doc.add(date);
 
+        addTable(doc, missions);
         addBillAnnotation(doc);
 
         addFooter(doc, pdfDoc);
@@ -146,16 +152,22 @@ public class PDFCreator {
 
     private static void addBillAnnotation(Document document) {
         Paragraph condition = new Paragraph("Conditions de paiement et mentions particulières :")
-                .setFontSize(10)
-                .setPaddingBottom(0)
-                .setMarginBottom(0);
-        Paragraph law = new Paragraph("TVA non applicable, article 293B du code général des impôts")
-                .setFontSize(10)
+                .setFontSize(12)
                 .setPaddingBottom(0)
                 .setMarginBottom(0)
-                .setItalic();
+                .setBold();
+
+        com.itextpdf.layout.element.List list = new com.itextpdf.layout.element.List();
+        list.add("TVA non applicable, article 293B du code général des impôts");
+        list.add("Cette facture est payable dans les 30 jours suivant la réception de celle-ci");
+        list.add("En cas de retard de paiement, une pénalité égale à 3 fois l'intérêt légal sera exigible et une indemnité\n" +
+            "        forfaitaire pour frais de recouvrement de 40€ sera appliquée (article L.441-6 du Code de commerce)");
+        list.add("Pas d'escompte en cas de paiement anticipé");
+
+        list.setFontSize(10);
+
         document.add(condition);
-        document.add(law);
+        document.add(list);
     }
 
     private static void addOwnContactBlock(Document document) {
@@ -168,7 +180,7 @@ public class PDFCreator {
                 .setTextAlignment(TextAlignment.LEFT);
         Paragraph city = new Paragraph(arrAddress[1])
                 .setTextAlignment(TextAlignment.LEFT);
-        Paragraph siren = new Paragraph(setting.getSiret())
+        Paragraph siren = new Paragraph("SIRET: " + setting.getSiret())
                 .setTextAlignment(TextAlignment.LEFT);
 
         document.add(name);
@@ -191,10 +203,13 @@ public class PDFCreator {
                 .setTextAlignment(TextAlignment.RIGHT);
         Paragraph city = new Paragraph(arrAddress[1])
                 .setTextAlignment(TextAlignment.RIGHT);
+        Paragraph siren = new Paragraph("SIREN: " + account.getSiren())
+                .setTextAlignment(TextAlignment.RIGHT);
 
         document.add(name);
         document.add(street);
         document.add(city);
+        document.add(siren);
     }
 
     private static void addFooter(Document document, PdfDocument pdfDocument) throws IOException {
