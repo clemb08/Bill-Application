@@ -2,6 +2,8 @@ package app.kenavo.billapplication.controllers;
 
 import app.kenavo.billapplication.model.Bill;
 import app.kenavo.billapplication.model.Mission;
+import app.kenavo.billapplication.services.BillService;
+import app.kenavo.billapplication.services.BillServiceImpl;
 import app.kenavo.billapplication.services.MissionService;
 import app.kenavo.billapplication.services.MissionsServiceImpl;
 import javafx.collections.FXCollections;
@@ -32,6 +34,7 @@ public class MissionSelectionController implements Initializable {
     private Bill bill;
 
     MissionService missionService = new MissionsServiceImpl();
+    BillService billService = new BillServiceImpl();
     TableView tableView;
 
     @Override
@@ -54,6 +57,12 @@ public class MissionSelectionController implements Initializable {
             });
             missionService.update(allMissions, missions);
             tableView.getItems().addAll(missions);
+
+            List<Bill> bills = billService.getAllBills();
+            Bill bill = billService.getBillById(bills, this.bill.getId());
+            Bill updatedBill = billService.getAmountBill(bill, missions);
+            billService.update(bills, updatedBill);
+
             Stage stage = (Stage) select.getScene().getWindow();
             stage.close();
         });

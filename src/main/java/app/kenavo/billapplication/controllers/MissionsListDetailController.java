@@ -293,9 +293,6 @@ public class MissionsListDetailController extends AnchorPane implements Initiali
             mission.setAccountId(picklistAccounts.getSelectionModel().getSelectedItem().getId());
             if(picklistBills.getSelectionModel().getSelectedItem() != null) {
                 mission.setBillId(picklistBills.getSelectionModel().getSelectedItem().getId());
-                Bill bill = billService.getBillById(bills, mission.getBillId());
-                Bill updatedBill = billService.getAmountBill(bill, missions);
-                billService.update(bills, updatedBill);
             } else {
                 mission.setBillId("None");
             }
