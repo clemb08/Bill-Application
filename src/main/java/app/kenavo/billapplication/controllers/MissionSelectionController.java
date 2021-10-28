@@ -58,9 +58,10 @@ public class MissionSelectionController implements Initializable {
             missionService.update(allMissions, missions);
             tableView.getItems().addAll(missions);
 
+            List<Mission> allMissionsUpdated = missionService.getAllMissions();
             List<Bill> bills = billService.getAllBills();
             Bill bill = billService.getBillById(bills, this.bill.getId());
-            Bill updatedBill = billService.getAmountBill(bill, missions);
+            Bill updatedBill = billService.getAmountBill(bill, allMissionsUpdated);
             billService.update(bills, updatedBill);
 
             Stage stage = (Stage) select.getScene().getWindow();

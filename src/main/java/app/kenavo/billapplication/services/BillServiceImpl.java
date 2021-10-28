@@ -55,6 +55,7 @@ public class BillServiceImpl implements BillService {
 
         missionsToAccount.forEach(mission -> billAmount[0] += mission.getPrice());
 
+        System.out.println(billAmount[0]);
         bill.setAmount(billAmount[0]);
 
         return bill;
