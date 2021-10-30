@@ -108,21 +108,24 @@ public class ValidationFields {
 
     public static void checkNumber(Map<Object, String> map, Text text, TextField textField) {
         if(textField.getText() != null) {
-            Matcher matcher = VALID_NUMBER.matcher(textField.getText());
-            if (!matcher.matches()) {
+            try {
+                Float check = Float.valueOf(textField.getText());
+
+                if(map.containsKey(textField)) {
+                    map.remove(textField, N_A_N);
+                    text.setVisible(false);
+                }
+            } catch (Exception e) {
                 map.put(textField, N_A_N);
                 text.setText(N_A_N);
                 text.setVisible(true);
-            } else if(map.containsKey(textField)) {
-                map.remove(textField, N_A_N);
-                text.setVisible(false);
             }
         }
     }
 
     public static void checkRangeNumber(Map<Object, String> map, Text text, TextField textField, Integer minimum, Integer maximum) {
         if(textField.getText() != null) {
-            int number = Integer.parseInt(textField.getText());
+            Float number = Float.valueOf(textField.getText());
             if(minimum != null) {
                 if(number < minimum) {
                     map.put(textField, NUMBER_TO_LOW + number);
