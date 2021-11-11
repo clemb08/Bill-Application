@@ -241,8 +241,9 @@ public class BillsListDetailController extends AnchorPane implements Initializab
         Account account = accountService.getAccountById(accounts, bill.getAccountId());
         billAccount.setText(account.getName());
         billAmount.setText(valueOf(bill.getAmount()));
+        System.out.println(bill.isCredited());
         if(bill.isCredited()) {
-            billCredited.isSelected();
+            billCredited.setSelected(true);
         }
         billType.setText(bill.getType());
         billDate.setText(String.valueOf(bill.getDate()));
