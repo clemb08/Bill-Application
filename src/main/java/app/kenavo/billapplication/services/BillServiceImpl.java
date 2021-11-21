@@ -133,7 +133,7 @@ public class BillServiceImpl implements BillService {
         String updatedId = bill.getId();
 
         List<Bill> billsToKeep = bills.stream()
-                .filter(bi -> bi.getId().equals(updatedId))
+                .filter(bi -> !bi.getId().equals(updatedId))
                 .collect(Collectors.toList());
 
         billsToKeep.add(bill);
