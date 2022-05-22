@@ -15,6 +15,11 @@ You need to generate the gradle wrapper : `gradle wrapper`
 
 On Linux OS you can simply execute the package.sh script : `./package.sh`. It will build the Java application in your /opt directory.
 
+You can add an alias to your bash configuration to easily run the app :
+
+`alias bill="cd && /opt/BillApplication/build/image/bin/BillApplication"`
+
+
 
 
 ## Running Locally
