@@ -54,10 +54,10 @@ public class PDFCreator {
         addOwnContactBlock(doc);
         addAccountContactBlock(doc, bill.getAccountId());
 
-        String title = "FACTURE " + bill.getNumber();
+        String title = "FACTURE " + bill.getNumber().split("-")[1];
         addTitle(doc, title);
 
-        Paragraph date = new Paragraph("date de Facturation: " + bill.getDate())
+        Paragraph date = new Paragraph("Date de Facturation: " + bill.getDate())
                 .setTextAlignment(TextAlignment.LEFT).setFont(helveticaFont).setFontSize(12)
                 .setMarginBottom(10)
                 .setMarginLeft(10)
@@ -196,6 +196,14 @@ public class PDFCreator {
         Paragraph name = new Paragraph(account.getName())
                 .setTextAlignment(TextAlignment.RIGHT)
                 .setMarginTop(20);
+        document.add(name);
+
+        if(account.getContact() != account.getName()) {
+            Paragraph contact = new Paragraph(account.getContact())
+                    .setTextAlignment(TextAlignment.RIGHT);
+            document.add(contact);
+        }
+
         String address = account.getAddress();
         String[] arrAddress = address.split(",");
 
@@ -206,7 +214,7 @@ public class PDFCreator {
         Paragraph siren = new Paragraph("SIREN: " + account.getSiren())
                 .setTextAlignment(TextAlignment.RIGHT);
 
-        document.add(name);
+
         document.add(street);
         document.add(city);
         document.add(siren);
